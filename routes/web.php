@@ -1,0 +1,141 @@
+<?php
+
+/*
+|--------------------------------------------------------------------------
+| Web Routes
+|--------------------------------------------------------------------------
+|
+| Here is where you can register web routes for your application. These
+| routes are loaded by the RouteServiceProvider within a group which
+| contains the "web" middleware group. Now create something great!
+|
+*/
+
+Route::get('/', 'FrontendController@index');
+
+Route::get('/category-page/{id}', 'FrontendController@category_page');
+
+Route::get('/featured-details/{id}', 'FrontendController@featured_page');
+
+Route::get('/new/product/details/{id}', 'FrontendController@details_product');
+
+Route::post('/contact/info', 'FrontendController@contact_info');
+
+Route::get('/customer/info', 'FrontendController@customer_info');
+
+Route::post('/customer/dashboard', 'FrontendController@customer_reg');
+
+Route::get('/customer/dashboard', 'FrontendController@customer_dashboard');
+
+Route::post('/customer/login', 'FrontendController@customer_login');
+
+Route::get('/customer/logout', 'FrontendController@customer_logout');
+
+Route::post('/save/customer/product', 'FrontendController@customer_product');
+
+Route::get('/delete/product/{id}', 'FrontendController@delete_product');
+
+
+
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/delete/info/{id}', 'HomeController@contact_delete');
+
+Route::get('/add/category', 'CategoryController@index');
+Route::get('/get/category/data', 'CategoryController@category_data');
+Route::post('/save-category', 'CategoryController@add_category');
+Route::get('/published/category/data/{id}', 'CategoryController@published_category');
+Route::get('/unpublished/category/data/{id}', 'CategoryController@unpublished_category');
+Route::get('/edit/category/data/{id}', 'CategoryController@edit_category');
+Route::post('/update-category', 'CategoryController@update_category');
+Route::get('/delete/category/data/{id}', 'CategoryController@delete_category');
+
+
+Route::get('/add/sub/category', 'CategoryController@sub_category');
+Route::get('/create/sub/category', 'CategoryController@create_sub_category');
+Route::post('/save/subcategory', 'CategoryController@save_sub_category');
+Route::get('/active/category/{id}', 'CategoryController@active_sub_category');
+Route::get('/pending/category/{id}', 'CategoryController@pending_sub_category');
+Route::get('/edit/category/{id}', 'CategoryController@edit_sub_category');
+Route::post('/update/subcategory', 'CategoryController@update_sub_category');
+Route::get('/delete/category/{id}', 'CategoryController@delete_sub_category');
+
+
+
+
+
+Route::get('/add/product', 'ProductController@index_product');
+Route::get('/create/product', 'ProductController@create_product');
+Route::post('/save-product', 'ProductController@save_product');
+Route::get('/active-product/{id}', 'ProductController@active_product');
+Route::get('/pending-product/{id}', 'ProductController@pending_product');
+Route::get('/edit-product/{id}', 'ProductController@edit_product');
+Route::post('/update-product', 'ProductController@update_product');
+Route::get('/delete-product/{id}', 'ProductController@delete_product');
+
+
+
+Route::get('/customer/product', 'ProductController@customer_product');
+Route::get('/customer/product/approved/{id}', 'ProductController@customer_product_approved');
+Route::get('/customer/product/pending/{id}', 'ProductController@customer_product_pending');
+
+
+Route::get('/add/logo', 'LogoController@index');
+Route::get('/create/logo', 'LogoController@create');
+Route::post('/save-logo', 'LogoController@save_logo');
+Route::get('/active/logo/{id}', 'LogoController@active_logo');
+Route::get('/pending/logo/{id}', 'LogoController@pending_logo');
+Route::get('/edit/logo/{id}', 'LogoController@edit_logo');
+Route::post('/update-logo', 'LogoController@update_logo');
+Route::get('/delete/logo/{id}', 'LogoController@delete_logo');
+
+
+
+Route::get('/add/slider', 'SliderController@index');
+Route::get('/create/slider', 'SliderController@create');
+Route::post('/save-slider', 'SliderController@save_slider');
+Route::get('/active-slider/{id}', 'SliderController@active_slider');
+Route::get('/pending-slider/{id}', 'SliderController@pending_slider');
+Route::get('/edit-slider/{id}', 'SliderController@edit_slider');
+Route::post('/update-slider', 'SliderController@update_slider');
+
+
+
+Route::get('/add/features', 'FeaturedController@show_featured');
+Route::get('/create/featured', 'FeaturedController@create_featured');
+Route::post('/save-featured', 'FeaturedController@save_featured');
+
+
+Route::post('/customer/confirm/order', 'FeaturedController@customer_order');
+
+
+Route::get('/add/work', 'WorkController@index');
+Route::get('/create/work', 'WorkController@create');
+Route::post('/save/work/product', 'WorkController@save_product');
+Route::get('/active-work/{id}', 'WorkController@active_work');
+Route::get('/pending-work/{id}', 'WorkController@pending_work');
+Route::get('/edit-work/{id}', 'WorkController@edit_work');
+Route::post('/update-work', 'WorkController@update_work');
+Route::get('/delete-work/{id}', 'WorkController@delete_work');
+
+
+Route::get('/add/client', 'ClientsController@index');
+Route::get('/create/client', 'ClientsController@create');
+Route::post('/save/client/product', 'ClientsController@save_client');
+Route::get('/active-client/{id}', 'ClientsController@active_client');
+Route::get('/pending-client/{id}', 'ClientsController@pending_client');
+Route::get('/edit-client/{id}', 'ClientsController@edit_client');
+Route::post('/update-client', 'ClientsController@update_client');
+Route::get('/delete-client/{id}', 'ClientsController@delete_client');
+
+
+Route::get('/add/footer', 'FooterController@index');
+Route::get('/create/footer', 'FooterController@create');
+Route::post('/save/footer', 'FooterController@save_footer');
+Route::get('/active-footer/{id}', 'FooterController@active_footer');
+Route::get('/pending-footer/{id}', 'FooterController@pending_footer');
+Route::get('/edit-footer/{id}', 'FooterController@edit_footer');
+Route::post('/update-footer', 'FooterController@update_footer');
+Route::get('/delete-footer/{id}', 'FooterController@delete_footer');
