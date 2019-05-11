@@ -1,7 +1,6 @@
 @extends('front.master')
 
 @section('content')
-
     <div class="container-fluid">
         <br/>
         <!-- Button trigger modal -->
@@ -65,6 +64,7 @@
                 </div>
             </div>
         </div>
+
         <br/><br/>
         <div class="content">
             <div class="module">
@@ -97,9 +97,13 @@
 
                                         <td>TK. {{ number_format($customer->price,2) }}</td>
 
-                                        <td style="text-align: center;"><span class="badge badge-success" style="font-size: 14px;">{{ $customer->status ==1 ? 'Approved' : 'Pending' }}</span></td>
+                                        <td style="text-align: center;">
+                                            <span class="badge badge-success" style="font-size: 14px;">
+                                                {{ $customer->status ==1 ? 'Approved' : 'Pending' }}
+                                            </span>
+                                        </td>
                                         <td>
-                                            <a href="#" class="badge badge-info" style="font-size: 14px;">Edit</a>
+                                            <a href="{{ url('/edit/product/'.$customer->id) }}" class="badge badge-info" style="font-size: 14px;">Edit</a>
                                             <a href="{{ url('/delete/product/'.$customer->id) }}" class="badge badge-danger" style="font-size: 14px;" onclick="return confirm('Are you Sure!! \n You Want To delete This?')">Delete</a>
                                         </td>
                                     </tr>
@@ -112,6 +116,10 @@
             </div>
         </div>
     </div>
+
+
+{{--    // Sale Statement //--}}
+
 
     <script src="//cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
     <script>

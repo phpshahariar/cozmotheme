@@ -339,17 +339,16 @@
                             </div>
                             <!--start .author-author__info-->
                             <div class="author-author__info has_dropdown">
-                                <div class="author__avatar online">
-                                    <img src="{{ asset('/frontend/') }}/img/user-avater.png" alt="user avatar" class="rounded-circle">
-                                </div>
+                                @if(Session::get('user_id'))
+                                    <span>{{ Session::get('name') }}</span>
+                                @else
+                                    <span>Create Account</span>
+                                @endif
                                 <div class="dropdown dropdown--author">
                                     <div class="author-credits d-flex">
-                                        <div class="author__avatar">
-                                            <img src="{{ asset('/frontend/') }}/img/user-avater.png" alt="user avatar" class="rounded-circle">
-                                        </div>
                                         <div class="autor__info">
                                             <p class="name">
-
+                                                <span>{{ Session::get('name') }}</span>
                                             </p>
                                         </div>
                                     </div>
@@ -358,6 +357,7 @@
                                             <a href="{{ url('/customer/info') }}">
                                                 <span class="icon-user"></span>Profile</a>
                                         </li>
+                                        @if(Session::get('user_id'))
                                         <li>
                                             <a href="dashboard.html">
                                                 <span class="icon-home"></span> Dashboard</a>
@@ -379,7 +379,7 @@
                                                 <span class="icon-credit-card"></span>Add Credits</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard-statement.html">
+                                            <a href="{{ url('/sale/statement') }}" target="_blank">
                                                 <span class="icon-chart"></span>Sale Statement</a>
                                         </li>
                                         <li>
@@ -406,6 +406,8 @@
                                                 @csrf
                                             </form>
                                         </li>
+                                        @else
+                                        @endif
                                     </ul>
                                 </div>
                             </div>

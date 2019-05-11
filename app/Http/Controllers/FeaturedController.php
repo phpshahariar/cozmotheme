@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Category;
+use App\CustomerProduct;
 use App\Featured;
 use App\Footer;
 use App\Logo;
@@ -69,14 +70,16 @@ class FeaturedController extends Controller
         $this->validate($request,[
             'name' => 'required|max:255',
             'phone' => 'required|max:15|min:11',
-            'email' => 'required',
+            'email' => 'required|email',
             'confirm' => 'required',
             'accept' => 'required',
         ]);
         $show_category = Category::orderBy('id', 'desc')->get();
         $sub_category = SubCategory::all();
         $show_logo = Logo::all();
-        $show_about = Footer::where('status', 1)->take(4)->get();
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        $customer_product_details = CustomerProduct::all();
+
         $order_submit = new Order();
         $order_submit->name = $request->name;
         $order_submit->phone = $request->phone;
@@ -85,6 +88,7 @@ class FeaturedController extends Controller
         $order_submit->accept = $request->accept;
         $order_submit->url = $request->url();
         $order_submit->save();
+
         Session::put('name', $order_submit->name);
         Session::put('email', $order_submit->email);
         Session::put('phone', $order_submit->phone);
@@ -95,7 +99,7 @@ class FeaturedController extends Controller
             $massage->subject('CozmoTheme');
         });
         if (Session::get('email')) {
-            return view('front.customer.customer-order', compact('show_logo', 'sub_category', 'show_category', 'show_about'));
+            return view('front.customer.customer-order', compact('show_logo', 'sub_category', 'show_category', 'show_about', 'customer_product_details'));
         }else{
             return redirect()->back();
         }

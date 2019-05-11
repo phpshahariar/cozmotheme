@@ -310,7 +310,7 @@
                             <!-- Ends: .tab-pane -->
                         </div>
                         <div class="text-center m-top-20">
-                            <a href="" class="btn btn--lg btn-primary">All New Products</a>
+                            <a href="{{ url('/more/product') }}" target="_blank" class="btn btn--lg btn-primary">More New Products</a>
                         </div>
                     </div>
                     <!-- Ends: .product-list -->

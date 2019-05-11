@@ -120,6 +120,7 @@
                                 <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
                             </div>
+
                             <div class="form-group form-check">
                                 <input type="checkbox" class="form-check-input" value="confirmed" required name="confirm" id="confirm">
                                 <label class="form-check-label" for="confirm">Confirm Order</label><br/>

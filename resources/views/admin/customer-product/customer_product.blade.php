@@ -33,7 +33,7 @@
                                         <td><span class="badge badge-success">{{ $product->status == 1 ? 'Approved' : 'Pending' }}</span></td>
                                         <td style="text-align: center;">
                                             @if($product->status == 1)
-                                                <a href="{{ url('/customer/product/approved/'.$product->id) }}" class="btn btn-sm badge badge-success">Approved</a>
+                                                <a href="{{ url('/customer/product/approved/'.$product->id) }}" class="btn btn-sm badge badge-success">Pending</a>
                                             @else
                                                 <a href="{{ url('/customer/product/pending/'.$product->id) }}" class="badge badge-danger">Need Approved</a>
                                             @endif

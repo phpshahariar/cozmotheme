@@ -36,6 +36,7 @@
                     </div>
                     <div class="col-lg-6" style="margin-top: 100px;">
                         <h3 style="color: #FFFFFF; text-align: center;">Login</h3>
+                        <span style="color: red; text-align: center;">{{ Session::get('message') }}</span>
                         <br/>
                         <form action="{{ url('/customer/login') }}" method="POST" class="form-horizontal">
                             @csrf

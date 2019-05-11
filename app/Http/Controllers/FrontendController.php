@@ -10,6 +10,8 @@ use App\CustomerProduct;
 use App\Featured;
 use App\Footer;
 use App\Logo;
+use App\Order;
+use App\OrderProduct;
 use App\Product;
 use App\Slider;
 use App\SubCategory;
@@ -20,6 +22,7 @@ use Illuminate\Http\Request;
 use DB;
 use Session;
 use Image;
+use Mail;
 class FrontendController extends Controller
 {
     public function index(){
@@ -35,6 +38,7 @@ class FrontendController extends Controller
         $show_work = Work::where('status', 1)->orderBy('id', 'asc')->take(3)->get();
         $show_client = Clients::where('status', 1)->orderBy('id', 'desc')->get();
         $show_about = Footer::where('status', 1)->take(1)->get();
+        $show_customer_product = CustomerProduct::where('status', 1)->orderBy('id', 'desc')->get();
         return view('front.home.home', compact('show_category',
             'products',
             'show_logo',
@@ -43,7 +47,8 @@ class FrontendController extends Controller
             'show_featurd',
             'show_work',
             'show_client',
-            'show_about'
+            'show_about',
+        'show_customer_product'
         ));
     }
 
@@ -91,18 +96,20 @@ class FrontendController extends Controller
         $details_product = Product::where('id', $id)->get();
         $view_product = Product::where('id', $id)->first();
         $product_view = 'product_'.$view_product->id;
-        $show_about = Footer::where('status', 1)->take(4)->get();
+
         if (!Session::has($product_view)){
             $view_product->increment('view_count');
             Session::put($product_view, 1);
         }
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        $customer_product_details = CustomerProduct::all();
         $show_logo = Logo::where('status', 1)->get();
         $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
         $show_category = Category::orderBy('id', 'asc')
             ->where('status', 1)
             ->take(6)
             ->get();
-        return view('front.products.product-details', compact('details_product', 'show_logo', 'show_slider','show_category', 'show_about'));
+        return view('front.products.product-details', compact('details_product', 'show_logo', 'show_slider','show_category', 'show_about', 'customer_product_details'));
     }
 
     public function contact_info(Request $request){
@@ -132,14 +139,12 @@ class FrontendController extends Controller
     }
 
     public function customer_dashboard(){
-        Session::get('id');
-        $show_customer = CustomerProduct::all();
+        $show_customer = CustomerProduct::where('user_id',  Session::get('user_id'))->get();
+
         $show_category = Category::orderBy('id', 'asc')->get();
         $sub_category = SubCategory::all();
         $show_logo = Logo::all();
         $show_about = Footer::where('status', 1)->take(1)->get();
-
-
         return view('front.customer.customer-dashboard', compact('show_category',
             'sub_category', 'show_logo', 'show_about', 'show_customer'));
     }
@@ -158,7 +163,7 @@ class FrontendController extends Controller
         $save_customer->password = bcrypt($request->password);
         $save_customer->save();
         if ($save_customer->id){
-            Session::put('id', $save_customer->id);
+            Session::put('user_id', $save_customer->id);
             Session::put('name', $save_customer->name);
             return redirect('/customer/dashboard');
         }
@@ -173,17 +178,22 @@ class FrontendController extends Controller
 
         $customer = Customer::where('email', $request->email)->first();
         if ($customer){
-            Session::put('id', $customer->id);
-            Session::put('name', $customer->name);
-            return redirect('/customer/dashboard');
+            if (password_verify($request->password, $customer->password)){
+                Session::put('user_id', $customer->id);
+                Session::put('name', $customer->name);
+                return redirect('/customer/dashboard');
+            }else{
+                return redirect('/customer/info')->with('message', 'Password dose not match');
+            }
+
         }else{
-            return redirect('/customer/info')->with('message', 'Invalid Login');
+            return redirect('/customer/info')->with('message', 'E-mail dose not match');
         }
 
     }
 
     public function customer_logout(){
-        Session::forget('id');
+        Session::forget('user_id');
         Session::forget('name');
         return redirect('/');
     }
@@ -219,13 +229,9 @@ class FrontendController extends Controller
         $customer_product->main_category_id = $request->main_category_id;
         $customer_product->sub_category_id = $request->sub_category_id;
         $customer_product->name = $request->name;
-        if ($customer_product->price = $request->price)
-            $customer_product->price = $request->price;
-        else{
-
-        }
+        $customer_product->price = $request->price;
         $customer_product->description = $request->description;
-        $customer_product->user_id = Session::get('id');
+        $customer_product->user_id = Session::get('user_id');
         $customer_product->save();
         Toastr::success('Your Product has been uploaded,Need to Admin Approved For Published', 'Success');
         return redirect()->back();
@@ -238,6 +244,122 @@ class FrontendController extends Controller
         Toastr::success('Your Product Deleted', 'Success');
         return redirect()->back();
     }
+
+
+    public function customer_product_edit($id){
+        $customer_product_edit = CustomerProduct::find($id);
+        $show_category = Category::orderBy('id', 'asc')->get();
+        $sub_category = SubCategory::all();
+        $show_logo = Logo::all();
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        return view('front.customer.edit-dashboard', compact(
+            'customer_product_edit', 'show_category', 'sub_category', 'show_logo', 'show_about'));
+    }
+
+    public function customer_product_update(Request $request){
+        $customer_product_update = CustomerProduct::find($request->id);
+
+        if ($request->hasFile('image')){
+            if ($request->image){
+                unlink(public_path('customer-images/'.$customer_product_update->image));
+            }
+        }
+
+        if ($request->hasFile('image')){
+            $productImage = $request->file('image');
+            $imageName = $productImage->getClientOriginalName();
+            $fileName = time().'_customer_product_'.$imageName;
+            $directory = public_path('/customer-images/');
+            $teamImgUrl = $directory.$fileName;
+            Image::make($productImage)->resize(350, 350)->save($teamImgUrl);
+            $customer_product_update->image = $fileName;
+        }
+
+        $customer_product_update->main_category_id = $request->main_category_id;
+        $customer_product_update->sub_category_id = $request->sub_category_id;
+        $customer_product_update->name = $request->name;
+        $customer_product_update->price = $request->price;
+        $customer_product_update->description = $request->description;
+        $customer_product_update->user_id = Session::get('id');
+        $customer_product_update->save();
+        Toastr::success('Your Product has been Updated,Need to Admin Approved For Published', 'Success');
+        return redirect('/customer/dashboard');
+    }
+
+
+    public function more_product(){
+        $customer_product = CustomerProduct::where('status', 1)->paginate(9);
+        $show_category = Category::orderBy('id', 'asc')->get();
+        $sub_category = SubCategory::all();
+        $show_logo = Logo::all();
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        $all_category = Category::where('status', 1)->get();
+        return view('front.customer.more-product', compact(
+            'customer_product',
+            'show_category',
+            'sub_category',
+            'show_logo',
+            'show_about',
+            'all_category'
+        ));
+    }
+
+
+    public function customer_product_details($id){
+        $customer_product_details = CustomerProduct::where('id', $id)->get();
+        $view = CustomerProduct::where('id', $id)->first();
+        $blogkey = 'product_' .$view->id;
+        if (!Session::has($blogkey)){
+            $view->increment('view_count');
+            Session::put($blogkey, 1);
+        }
+        $show_category = Category::orderBy('id', 'asc')->get();
+        $sub_category = SubCategory::all();
+        $show_logo = Logo::all();
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        return view('front.customer.customer-details', compact('customer_product_details', 'show_category', 'sub_category', 'show_logo', 'show_about'));
+    }
+
+        public function customer_statement(Request $request){
+
+            $order_submit = new OrderProduct();
+            $order_submit->user_id = $request->user_id;
+            $order_submit->product_id = $request->product_id;
+            $order_submit->name = $request->name;
+            $order_submit->phone = $request->phone;
+            $order_submit->email = $request->email;
+            $order_submit->confirm = $request->confirm;
+            $order_submit->accept = $request->accept;
+            $order_submit->price = $request->price;
+            $order_submit->url = $request->url();
+
+            $order_submit->save();
+
+            Session::put('name', $order_submit->name);
+            Session::put('email', $order_submit->email);
+            Session::put('phone', $order_submit->phone);
+
+            $data = $order_submit->toArray();
+            Mail::send('front.mail.mail', $data, function ($massage) use($data) {
+                $massage->to($data ['email']);
+                $massage->subject('CozmoTheme');
+            });
+
+            Toastr::success('Your Information Send To Admin', 'Success');
+            return redirect()->back();
+        }
+
+
+        public function sale_statement(){
+            $statement = OrderProduct::where('user_id', Session::get('user_id'))->get();
+            $show_category = Category::orderBy('id', 'asc')->get();
+            $sub_category = SubCategory::all();
+            $show_logo = Logo::all();
+            $show_about = Footer::where('status', 1)->take(1)->get();
+        return view('front.customer.sale-statement', compact('show_category', 'sub_category', 'show_logo', 'show_about', 'statement'));
+        }
+
+
 
 
 }

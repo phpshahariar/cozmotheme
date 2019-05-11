@@ -35,6 +35,16 @@ Route::post('/save/customer/product', 'FrontendController@customer_product');
 
 Route::get('/delete/product/{id}', 'FrontendController@delete_product');
 
+Route::get('/edit/product/{id}', 'FrontendController@customer_product_edit');
+
+Route::post('/update/customer/product', 'FrontendController@customer_product_update');
+
+Route::get('/more/product', 'FrontendController@more_product');
+
+Route::get('/customer/product/details/{id}', 'FrontendController@customer_product_details');
+Route::post('/customer/product/order', 'FrontendController@customer_statement');
+Route::get('/sale/statement', 'FrontendController@sale_statement');
+
 
 
 
@@ -80,6 +90,7 @@ Route::get('/delete-product/{id}', 'ProductController@delete_product');
 Route::get('/customer/product', 'ProductController@customer_product');
 Route::get('/customer/product/approved/{id}', 'ProductController@customer_product_approved');
 Route::get('/customer/product/pending/{id}', 'ProductController@customer_product_pending');
+
 
 
 Route::get('/add/logo', 'LogoController@index');
