@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cashout;
 use App\Category;
 use App\Clients;
 use App\Contact;
@@ -232,6 +233,7 @@ class FrontendController extends Controller
         $customer_product->price = $request->price;
         $customer_product->description = $request->description;
         $customer_product->user_id = Session::get('user_id');
+        $customer_product->url = $request->url;
         $customer_product->save();
         Toastr::success('Your Product has been uploaded,Need to Admin Approved For Published', 'Success');
         return redirect()->back();
@@ -322,6 +324,18 @@ class FrontendController extends Controller
 
         public function customer_statement(Request $request){
 
+        $this->validate($request,[
+            'user_id' => 'required',
+            'product_id' => 'required',
+            'name' => 'required|max:255',
+            'phone' => 'required',
+            'email' => 'required|email',
+            'confirm' => 'required',
+            'accept' => 'required',
+
+        ]);
+
+
             $order_submit = new OrderProduct();
             $order_submit->user_id = $request->user_id;
             $order_submit->product_id = $request->product_id;
@@ -352,11 +366,41 @@ class FrontendController extends Controller
 
         public function sale_statement(){
             $statement = OrderProduct::where('user_id', Session::get('user_id'))->get();
+            $cash_out = Cashout::all();
+
+
+
+
             $show_category = Category::orderBy('id', 'asc')->get();
             $sub_category = SubCategory::all();
             $show_logo = Logo::all();
             $show_about = Footer::where('status', 1)->take(1)->get();
-        return view('front.customer.sale-statement', compact('show_category', 'sub_category', 'show_logo', 'show_about', 'statement'));
+        return view('front.customer.sale-statement', compact('show_category', 'sub_category', 'show_logo', 'show_about', 'statement', 'cash_out'));
+        }
+
+        public function saleWithdrawal($id){
+            $statement = OrderProduct::find($id);
+            return response()->json($statement);
+        }
+
+
+        public function cash_out(Request $request){
+            $order = OrderProduct::find($request->id);
+            if ($request->case_out){
+                $order->price = 0.00;
+            }
+            $order->update();
+            //======================//
+            $cash_out = new Cashout();
+            $cash_out->case_out = $request->case_out;
+            $cash_out->bank = $request->bank;
+            $cash_out->mobile = $request->mobile;
+            $cash_out->others = $request->others;
+            $cash_out->confirm = $request->confirm;
+            $cash_out->save();
+
+            Toastr::success('Your Cash Withdrawal Successfully', 'Success');
+            return redirect()->back();
         }
 
 

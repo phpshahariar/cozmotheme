@@ -12,7 +12,7 @@
                                 <thead>
                                 <tr style="text-align: center; background: #0d0f13;">
                                     <th style="border: 1px solid lightslategray; color: #ffffff;">SL</th>
-                                    <th style="border: 1px solid lightslategray; color: #ffffff;">Product ID</th>
+                                    <th style="border: 1px solid lightslategray; color: #ffffff;">Product Name</th>
                                     <th style="border: 1px solid lightslategray; color: #ffffff;">Product Price</th>
                                     <th style="border: 1px solid lightslategray; color: #ffffff;" width="25%">Action</th>
                                 </tr>
@@ -22,20 +22,20 @@
                                 @foreach($statement as $sale)
                                     <tr style="text-align: center;">
                                         <td>{{ $i++ }}</td>
-                                        <td>{{$sale->product_id}}</td>
+                                        <td>{{ $sale->product_id }}</td>
                                         <td>TK. {{$money = number_format($sale->price,2)}}</td>
                                         <td>
                                             @if($money == 0)
-                                                <p class="alert alert-success">You Successfully Withdrawal...</p>
+                                                <button class="btn btn-sm btn-success" disabled>Withdrawal</button>
                                              @else
-                                                <a href="#" data-toggle="modal" data-target="#caseOut" class="btn btn-sm btn-success">Withdrawal</a>
+                                                <button data-toggle="modal" data-target="#caseOut" value="{{ $sale->id }}" class="btn btn-sm btn-success caseOut">Withdrawal</button>
                                             @endif
                                         </td>
                                     </tr>
                                 @endforeach
                                 </tbody>
                             </table>
-{{--                            Modal Start--}}
+                            {{--   Modal Start--}}
                             <div class="modal fade" id="caseOut" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
                                 <div class="modal-dialog" role="document">
                                     <form action="{{ url('/case/out') }}"  method="POST" id="addCustomerForm">
@@ -52,16 +52,16 @@
                                                     <div class="input-group-prepend">
                                                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
                                                     </div>
-                                                    <input type="text" class="form-control" value="{{$money = number_format($sale->price,2)}}" name="case_out">
-                                                    <span style="color: red"> {{ $errors->has('case_out') ? $errors->first('case_out') : ' ' }}</span>
+                                                    <input type="text" class="form-control" readonly id="case_out" name="case_out">
+                                                    <input type="text" class="form-control"  id="id" name="id">
                                                 </div>
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i class="icon-phone"></i></span>
+                                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-dollar"></i></span>
                                                     </div>
                                                     <select class="form-control" name="withdrawal" id="withdrawal_id">
                                                         <option>---Select Withdrawal Polici---</option>
-                                                        <option id="bank" value="1">Bank Account</option>
+                                                        <option id="bank"  value="1">Bank Account</option>
                                                         <option id="mobile" value="2">Mobile Wallet</option>
                                                         <option id="others" value="3">Others</option>
                                                     </select>
@@ -94,7 +94,7 @@
                                     </form>
                                 </div>
                             </div>
-{{--                            Modal End--}}
+                        {{--  Modal End--}}
                         </div>
                     </div>
                 </div>
@@ -113,6 +113,18 @@
     </script>
 
     <script>
+        $('.caseOut').click(function () {
+            var id = $(this).val();
+            $.ajax({
+                url:"{{ url('/sale/withdrawal') }}/" + id,
+                data: {},
+                success:function (data) {
+                    $("#case_out").val(data.price);
+                    $("#id").val(data.id);
+                }
+            });
+        });
+
         $("#bankshow").hide();
         $("#mobileshow").hide();
         $("#othersshow").hide();

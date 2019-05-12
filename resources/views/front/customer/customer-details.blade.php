@@ -121,7 +121,7 @@
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
                                 <input type="hidden" class="form-control"  name="price" value="{{ $product->price }}">
                                 <input type="hidden" class="form-control"  name="user_id" value="{{ $product->user_id }}">
-                                <input type="hidden" class="form-control"  name="product_id" value="{{ $product->id }}">
+                                <input type="hidden" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
                             </div>
 
                             <div class="form-group form-check">

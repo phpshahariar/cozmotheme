@@ -44,6 +44,8 @@ Route::get('/more/product', 'FrontendController@more_product');
 Route::get('/customer/product/details/{id}', 'FrontendController@customer_product_details');
 Route::post('/customer/product/order', 'FrontendController@customer_statement');
 Route::get('/sale/statement', 'FrontendController@sale_statement');
+Route::get('/sale/withdrawal/{id}', 'FrontendController@saleWithdrawal');
+Route::post('/case/out', 'FrontendController@cash_out');
 
 
 

@@ -18,4 +18,8 @@ class Category extends Model
     {
         return $this->hasMany('App\CustomerProduct');
     }
+
+    public function orderProduct(){
+        return $this->hasMany('App\OrderProduct');
+    }
 }
