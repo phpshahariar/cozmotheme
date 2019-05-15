@@ -25,7 +25,13 @@
                                 @foreach($customer_product as $key => $product)
                                     <tr>
                                         <th scope="row">{{ $key+1 }}</th>
-                                        <td>{{ $product->customers->name }}</td>
+                                        <td>
+                                            @if(isset($product->customers->name))
+                                                {{ $product->customers->name }}
+                                            @else
+                                                <p>Customer Name Not Found</p>
+                                            @endif
+                                        </td>
                                         <td>{{ $product->category->main_category }}</td>
                                         <td>
                                             <img src="{{ asset('customer-images/'.$product->image) }}" height="50" width="120">
@@ -33,11 +39,13 @@
                                         <td><span class="badge badge-success">{{ $product->status == 1 ? 'Approved' : 'Pending' }}</span></td>
                                         <td style="text-align: center;">
                                             @if($product->status == 1)
-                                                <a href="{{ url('/customer/product/approved/'.$product->id) }}" class="btn btn-sm badge badge-success">Pending</a>
+                                                <a href="{{ url('/customer/product/approved/'.$product->id) }}" class="btn btn-sm btn-success">Pending</a>
                                             @else
-                                                <a href="{{ url('/customer/product/pending/'.$product->id) }}" class="badge badge-danger">Need Approved</a>
+                                                <a href="{{ url('/customer/product/pending/'.$product->id) }}" class="btn btn-sm btn-danger">Need Approved</a>
                                             @endif
+                                                <a href="{{ url('/customer/product/edit/'.$product->id) }}" class="btn btn-sm btn-primary">Edit</a>
                                         </td>
+
                                     </tr>
                                 @endforeach
                                 </tbody>
@@ -48,4 +56,5 @@
             </div>
         </div>
     </div>
+
     @endsection

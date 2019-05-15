@@ -11,6 +11,8 @@
 |
 */
 
+use App\SubCategory;
+
 Route::get('/', 'FrontendController@index');
 
 Route::get('/category-page/{id}', 'FrontendController@category_page');
@@ -46,6 +48,10 @@ Route::post('/customer/product/order', 'FrontendController@customer_statement');
 Route::get('/sale/statement', 'FrontendController@sale_statement');
 Route::get('/sale/withdrawal/{id}', 'FrontendController@saleWithdrawal');
 Route::post('/case/out', 'FrontendController@cash_out');
+
+
+
+Route::get('/search',  'FrontendController@search')->name('search');
 
 
 
@@ -92,6 +98,11 @@ Route::get('/delete-product/{id}', 'ProductController@delete_product');
 Route::get('/customer/product', 'ProductController@customer_product');
 Route::get('/customer/product/approved/{id}', 'ProductController@customer_product_approved');
 Route::get('/customer/product/pending/{id}', 'ProductController@customer_product_pending');
+Route::get('/customer/product/edit/{id}', 'ProductController@customer_product_edit');
+Route::post('/update/customer/product', 'ProductController@customer_product_update');
+
+Route::get('/customer/sale/statement', 'ProductController@customer_sale_statement');
+Route::get('/statement/delete/{id}', 'ProductController@statement_delete');
 
 
 
@@ -152,3 +163,17 @@ Route::get('/pending-footer/{id}', 'FooterController@pending_footer');
 Route::get('/edit-footer/{id}', 'FooterController@edit_footer');
 Route::post('/update-footer', 'FooterController@update_footer');
 Route::get('/delete-footer/{id}', 'FooterController@delete_footer');
+
+
+Route::get('/customer/order/list', 'CustomerOrderController@customer_order_request');
+Route::get('/delivered/pending/{id}', 'CustomerOrderController@customer_order_pending');
+Route::get('/delivered/confirm/{id}', 'CustomerOrderController@customer_order_cofirm');
+Route::get('/delivered/delete/{id}', 'CustomerOrderController@customer_order_delete');
+
+
+//API Route
+
+Route::get('/sub-category/{id}', function ($id){
+    return json_encode(App\SubCategory::where('main_category_id', $id)->get());
+
+});

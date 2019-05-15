@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Cashout;
 use App\Category;
+use App\Customer;
 use App\CustomerProduct;
 use App\Product;
 use App\SubCategory;
 use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Image;
+use Session;
 class ProductController extends Controller
 {
     public function index_product(){
@@ -75,33 +78,28 @@ class ProductController extends Controller
     }
 
     public function update_product(Request $request){
-        $update_product = Product::find($request->id);
+        $customer_product = Product::find($request->id);
 
         if ($request->hasFile('image')){
-            if ($request->image){
-                unlink(public_path('/product-images/'.$update_product->image));
-            }
-        }
-        if ($request->hasFile('image')){
-            $teamImage = $request->file('image');
-            $imageName = $teamImage->getClientOriginalName();
-            $fileName = time().'_product_'.$imageName;
-            $directory = public_path('/product-images/');
+            $productImage = $request->file('image');
+            $imageName = $productImage->getClientOriginalName();
+            $fileName = time().'_customer_product_'.$imageName;
+            $directory = public_path('/customer-images/');
             $teamImgUrl = $directory.$fileName;
-            Image::make($teamImage)->resize(350, 350)->save($teamImgUrl);
-            $update_product->image = $fileName;
+            Image::make($productImage)->resize(350, 350)->save($teamImgUrl);
+            $customer_product->image = $fileName;
         }
 
-        $update_product->main_category_id = $request->main_category_id;
-        $update_product->sub_category_id = $request->sub_category_id;
-        $update_product->name = $request->name;
-        $update_product->balance = $request->balance;
-        $update_product->short_description = $request->short_description;
-        $update_product->long_description = $request->long_description;
-        $update_product->status = $request->status;
-        $update_product->save();
-        \Brian2694\Toastr\Facades\Toastr::success('Product has been Updated :)', 'Updated');
-        return redirect('/add/product');
+        $customer_product->main_category_id = $request->main_category_id;
+        $customer_product->sub_category_id = $request->sub_category_id;
+        $customer_product->name = $request->name;
+        $customer_product->price = $request->price;
+        $customer_product->description = $request->description;
+        $customer_product->user_id = Session::get('user_id');
+        $customer_product->url = $request->url;
+        $customer_product->save();
+        \Brian2694\Toastr\Facades\Toastr::success('Your Product has been uploaded,Need to Admin Approved For Published', 'Success');
+        return redirect()->back();
     }
 
     public function delete_product($id){
@@ -134,6 +132,42 @@ class ProductController extends Controller
         \Brian2694\Toastr\Facades\Toastr::success('Product has been Approved', 'Success');
         return redirect()->back();
     }
+
+    public function customer_product_edit($id){
+        $edit_customer_product = CustomerProduct::find($id);
+        $show_category = Category::orderBy('id', 'asc')->get();
+        $sub_categories = SubCategory::all();
+        return view('admin.customer-product.customer-edit', compact('edit_customer_product', 'show_category', 'sub_categories'));
+    }
+
+    public function customer_product_update(Request $request){
+        $customer_product = CustomerProduct::find($request->id);
+
+        $customer_product->main_category_id = $request->main_category_id;
+        $customer_product->sub_category_id = $request->sub_category_id;
+        $customer_product->name = $request->name;
+        $customer_product->price = $request->price;
+        $customer_product->description = $request->description;
+        $customer_product->user_id = Session::get('user_id');
+        $customer_product->url = $request->url;
+        $customer_product->save();
+        \Brian2694\Toastr\Facades\Toastr::success('Customer Product has been Updated', 'Success');
+        return redirect('/customer/product');
+    }
+
+    public function customer_sale_statement(){
+        $customer_cashout = Cashout::all();
+        return view('admin.customer-product.sale-statement', compact('customer_cashout'));
+    }
+
+    public function statement_delete($id){
+        $customer_cashout_delete = Cashout::find($id);
+        $customer_cashout_delete->delete();
+        \Brian2694\Toastr\Facades\Toastr::success('Customer Cashout Statement has been Deleted', 'Success');
+        return redirect()->back();
+    }
+
+
 
 
 }

@@ -20,18 +20,20 @@
                                 <tbody>
                                 @php($i = 0)
                                 @foreach($statement as $sale)
+                                    @if($sale->status == 1)
                                     <tr style="text-align: center;">
                                         <td>{{ $i++ }}</td>
                                         <td>{{ $sale->product_id }}</td>
                                         <td>TK. {{$money = number_format($sale->price,2)}}</td>
-                                        <td>
-                                            @if($money == 0)
-                                                <button class="btn btn-sm btn-success" disabled>Withdrawal</button>
-                                             @else
+                                            <td>
+                                                @if($money ==0)
+                                                    <button data-toggle="modal" data-target="#caseOut" value="{{ $sale->id }}" class="btn btn-sm btn-info caseOut" disabled="disabled">All Ready Done</button>
+                                                @else
                                                 <button data-toggle="modal" data-target="#caseOut" value="{{ $sale->id }}" class="btn btn-sm btn-success caseOut">Withdrawal</button>
-                                            @endif
-                                        </td>
+                                                @endif
+                                            </td>
                                     </tr>
+                                    @endif
                                 @endforeach
                                 </tbody>
                             </table>
@@ -53,7 +55,7 @@
                                                         <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
                                                     </div>
                                                     <input type="text" class="form-control" readonly id="case_out" name="case_out">
-                                                    <input type="text" class="form-control"  id="id" name="id">
+                                                    <input type="hidden" class="form-control"  id="id" name="id">
                                                 </div>
                                                 <div class="input-group mb-3">
                                                     <div class="input-group-prepend">

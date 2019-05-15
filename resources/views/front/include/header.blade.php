@@ -59,6 +59,7 @@
                                     </div>
                                 </div>
                             </div>
+                            @if(Session::get('user_id'))
                             <div class="author__notification_area">
                                 <ul>
                                     <li class="has_dropdown">
@@ -337,6 +338,7 @@
                                     </li>
                                 </ul>
                             </div>
+                            @endif
                             <!--start .author-author__info-->
                             <div class="author-author__info has_dropdown">
                                 @if(Session::get('user_id'))
@@ -355,7 +357,7 @@
                                     <ul>
                                         <li>
                                             <a href="{{ url('/customer/info') }}">
-                                                <span class="icon-user"></span>Profile</a>
+                                                <span class="icon-user"></span>Registration</a>
                                         </li>
                                         @if(Session::get('user_id'))
                                         <li>

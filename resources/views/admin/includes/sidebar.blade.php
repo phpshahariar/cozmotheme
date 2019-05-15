@@ -13,6 +13,18 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{url('/customer/sale/statement')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+         <span>Payment Request</span></a>
+    </li>
+
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('/customer/order/list')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Order List</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{url('/add/category')}}">
             <i class="fas fa-fw fa-chart-area"></i>
             <span>Category</span></a>

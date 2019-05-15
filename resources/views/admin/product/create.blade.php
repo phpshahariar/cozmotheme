@@ -8,7 +8,7 @@
                 @csrf
                 <div class="form-group">
                     <label>Main Category Name</label>
-                    <select class="form-control" name="main_category_id">
+                    <select class="form-control" name="main_category_id" id="main_category_id">
                         <option>---Select Main Category---</option>
                         @foreach($categories as $main_category)
                             <option value="{{$main_category->id}}">{{ $main_category->main_category }}</option>
@@ -17,11 +17,9 @@
                 </div>
                 <div class="form-group">
                     <label>Sub Category Name</label>
-                    <select class="form-control" name="sub_category_id">
+                    <select class="form-control" name="sub_category_id" id="sub_category">
                         <option>---Select Sub Category---</option>
-                        @foreach($sub_categories as $sub)
-                            <option value="{{$sub->id}}">{{ $sub->sub_category_name }}</option>
-                        @endforeach
+
                     </select>
                 </div>
                 <div class="form-group">
@@ -57,8 +55,33 @@
         </div>
     </div>
 
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script>
+       $("#main_category_id").change(function () {
+           var category = $("#main_category_id").val();
+           $("#sub_category").html("");
+           var option = "";
+
+           $.get( "http://localhost/Cozmo/public/sub-category/"+category, function( data ) {
+              var data = JSON.parse(data);
+               data.forEach(function (element) {
+                   console.log(element.sub_category_name);
+                   option += "<option value='"+ element.id +"'>"+ element.sub_category_name +"</option>";
+               });
+
+               $("#sub_category").html(option);
+           });
+       });
+    </script>
+
     <script src="//cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>
     <script>
         CKEDITOR.replace( 'editor1' );
     </script>
+
+
     @endsection

@@ -200,6 +200,41 @@ class FrontendController extends Controller
     }
 
 
+    //Searching Panel//
+
+    public function search(Request $request){
+        $product_search = $request->search;
+        $show_logo = Logo::where('status', 1)->get();
+        $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
+        $all_category = Category::where('status', 1)->get();
+        $show_featurd = Featured::where('status', 1)->orderBy('id', 'asc')->get();
+        $show_work = Work::where('status', 1)->orderBy('id', 'asc')->take(3)->get();
+        $show_client = Clients::where('status', 1)->orderBy('id', 'desc')->get();
+        $show_about = Footer::where('status', 1)->take(1)->get();
+        $show_customer_product = CustomerProduct::where('status', 1)->orderBy('id', 'desc')->get();
+        $show_category = Category::orderBy('id', 'asc')
+            ->where('status', 1)
+            ->take(6)
+            ->get();
+        $products = Product::orderBy('id', 'desc')
+            ->where('name', 'like', '%'.$product_search.'%')
+            ->orwhere('short_description', 'like', '%'.$product_search.'%')
+            ->get();
+
+        return view('front.home.search', compact('products',
+            'show_logo',
+            'show_slider',
+            'all_category',
+            'show_featurd',
+            'show_work',
+            'show_client',
+            'show_about',
+            'show_customer_product',
+            'show_category'
+        ));
+    }
+
+
 
 
     //Customer Category Start//
@@ -367,10 +402,6 @@ class FrontendController extends Controller
         public function sale_statement(){
             $statement = OrderProduct::where('user_id', Session::get('user_id'))->get();
             $cash_out = Cashout::all();
-
-
-
-
             $show_category = Category::orderBy('id', 'asc')->get();
             $sub_category = SubCategory::all();
             $show_logo = Logo::all();
@@ -392,6 +423,7 @@ class FrontendController extends Controller
             $order->update();
             //======================//
             $cash_out = new Cashout();
+            $cash_out->user_id = Session::get('name');
             $cash_out->case_out = $request->case_out;
             $cash_out->bank = $request->bank;
             $cash_out->mobile = $request->mobile;

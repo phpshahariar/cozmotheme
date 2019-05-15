@@ -456,7 +456,7 @@
                         spam!</p>
                     <form action="#" class="subscribe-form">
                         <div class="form-group">
-                            <input type="text" placeholder="Enter your email address" required>
+                            <input type="text"  placeholder="Enter your email address" required>
                             <button type="submit" class="btn btn--sm btn-primary">Subscribe</button>
                         </div>
                     </form>
@@ -466,17 +466,5 @@
     </section>
 
 
-{{--    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.js"></script>--}}
-{{--    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>--}}
 
-{{--    <script type="text/javascript">--}}
-{{--        var path = "{{ route('search') }}";--}}
-{{--        $('input.typeahead').typeahead({--}}
-{{--            source:  function (query, process) {--}}
-{{--                return $.get(path, { query: query }, function (data) {--}}
-{{--                    return process(data);--}}
-{{--                });--}}
-{{--            }--}}
-{{--        });--}}
-{{--    </script>--}}
-    @endsection
+@endsection
