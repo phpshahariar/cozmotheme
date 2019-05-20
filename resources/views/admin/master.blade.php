@@ -8,8 +8,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SB Admin - Dashboard</title>
+    <title>Admin</title>
 
     <!-- Custom fonts for this template-->
     <link href="{!! asset('/admin/backend/') !!}/vendor/fontawesome-free/css/all.min.css" rel="stylesheet" type="text/css">
@@ -19,11 +20,12 @@
 
     <!-- Custom styles for this template-->
     <link href="{!! asset('/admin/backend/') !!}/css/sb-admin.css" rel="stylesheet">
+
     <link rel="stylesheet" href="http://cdn.bootcss.com/toastr.js/latest/css/toastr.min.css">
 
 {{--    <script src="{!! asset('/admin/') !!}/ckeditor.js"></script>--}}
 {{--    <script src="{!! asset('/admin/') !!}/samples/js/sample.js"></script>--}}
-    <link rel="stylesheet" href="{!! asset('/admin/backend/') !!}css/samples.css">
+{{--    <link rel="stylesheet" href="{!! asset('/admin/backend/') !!}/css/samples.css">--}}
 
 </head>
 

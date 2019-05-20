@@ -11,6 +11,7 @@
 |
 */
 
+use App\Featured;
 use App\SubCategory;
 
 Route::get('/', 'FrontendController@index');
@@ -20,6 +21,8 @@ Route::get('/category-page/{id}', 'FrontendController@category_page');
 Route::get('/featured-details/{id}', 'FrontendController@featured_page');
 
 Route::get('/new/product/details/{id}', 'FrontendController@details_product');
+Route::post('/new/customer/product/order', 'FrontendController@admin_product');
+
 
 Route::post('/contact/info', 'FrontendController@contact_info');
 
@@ -39,17 +42,19 @@ Route::get('/delete/product/{id}', 'FrontendController@delete_product');
 
 Route::get('/edit/product/{id}', 'FrontendController@customer_product_edit');
 
-Route::post('/update/customer/product', 'FrontendController@customer_product_update');
+Route::post('/update/customer', 'FrontendController@customer_product_update');
 
 Route::get('/more/product', 'FrontendController@more_product');
 
 Route::get('/customer/product/details/{id}', 'FrontendController@customer_product_details');
 Route::post('/customer/product/order', 'FrontendController@customer_statement');
+Route::post('/customer/product/order', 'FrontendController@order_statement');
+
 Route::get('/sale/statement', 'FrontendController@sale_statement');
 Route::get('/sale/withdrawal/{id}', 'FrontendController@saleWithdrawal');
 Route::post('/case/out', 'FrontendController@cash_out');
 
-
+Route::get('/more/featured', 'FrontendController@more_featured');
 
 Route::get('/search',  'FrontendController@search')->name('search');
 
@@ -105,6 +110,11 @@ Route::get('/customer/sale/statement', 'ProductController@customer_sale_statemen
 Route::get('/statement/delete/{id}', 'ProductController@statement_delete');
 
 
+Route::get('/admin/product', 'ProductController@admin_product');
+
+Route::post('/search', 'ProductController@product_search')->name('search');
+
+
 
 Route::get('/add/logo', 'LogoController@index');
 Route::get('/create/logo', 'LogoController@create');
@@ -130,9 +140,15 @@ Route::post('/update-slider', 'SliderController@update_slider');
 Route::get('/add/features', 'FeaturedController@show_featured');
 Route::get('/create/featured', 'FeaturedController@create_featured');
 Route::post('/save-featured', 'FeaturedController@save_featured');
+Route::get('/active/featured/{id}', 'FeaturedController@active_featured');
+Route::get('/pending/featured/{id}', 'FeaturedController@pending_featured');
+Route::get('/edit/featured/{id}', 'FeaturedController@edit_featured');
+Route::post('/update-featured', 'FeaturedController@update_featured');
 
 
 Route::post('/customer/confirm/order', 'FeaturedController@customer_order');
+
+
 
 
 Route::get('/add/work', 'WorkController@index');
@@ -175,5 +191,16 @@ Route::get('/delivered/delete/{id}', 'CustomerOrderController@customer_order_del
 
 Route::get('/sub-category/{id}', function ($id){
     return json_encode(App\SubCategory::where('main_category_id', $id)->get());
+
+});
+
+Route::get('/customer-category/{id}', function ($id){
+    return json_encode(App\SubCategory::where('main_category_id', $id)->get());
+
+});
+
+Route::get('/featured-category/{id}', function ($id){
+    $app = App\SubCategory::where('main_category_id', $id)->get();
+    return response()->json($app);
 
 });

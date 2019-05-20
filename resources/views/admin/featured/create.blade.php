@@ -10,7 +10,7 @@
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Main Category</label>
-                        <select class="form-control" name="main_category_id">
+                        <select class="form-control" name="main_category_id" id="main_category_id">
                             <option>---Select Main Category---</option>
                             @foreach($all_category as $all)
                                 <option value="{{ $all->id }}">{{ $all->main_category }}</option>
@@ -20,11 +20,9 @@
                     <span style="color: red"> {{ $errors->has('main_category_id') ? $errors->first('main_category_id') : ' ' }}</span>
                     <div class="form-group col-md-6">
                         <label for="inputEmail4">Sub Category</label>
-                        <select class="form-control" name="sub_category_id">
+                        <select class="form-control" name="sub_category_id" id="sub_category">
                             <option>---Select Sub Category---</option>
-                            @foreach($sub_category as $sub)
-                                <option value="{{ $sub->id }}">{{ $sub->sub_category_name }}</option>
-                            @endforeach
+
                         </select>
                     </div>
                     <span style="color: red"> {{ $errors->has('sub_category_id') ? $errors->first('sub_category_id') : ' ' }}</span>
@@ -48,7 +46,7 @@
                     <label for="image">Image</label>
                     <input type="file" id="image" name="image">
                 </div>
-                <div class="form-group col-md-6">
+                <div class="form-group">
                     <label for="inputEmail4">Status</label>
                     <select class="form-control" name="status">
                         <option>---Select Status---</option>
@@ -68,4 +66,29 @@
     <script>
         CKEDITOR.replace( 'editor1' );
     </script>
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+
+    <script>
+        $("#main_category_id").change(function () {
+            var category = $("#main_category_id").val();
+            var opt = "";
+            $.ajax({
+                url:"{{ url('featured-category') }}/" + category,
+                data:{main_category_id:category},
+                success:function (data) {
+                    opt += "<option>Select Sub Category</option>";
+                    for (var i=0; i<data.length; i++){
+                        opt += "<option value='"+ data[i].id +"'>"+ data[i].sub_category_name +"</option>";
+                    }
+                    $("#sub_category").html(opt);
+                }
+            });
+        });
+    </script>
+
 @endsection

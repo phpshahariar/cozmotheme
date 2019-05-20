@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\adminProduct;
 use App\Cashout;
 use App\Category;
 use App\Clients;
@@ -35,7 +36,7 @@ class FrontendController extends Controller
         $show_logo = Logo::where('status', 1)->get();
         $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
         $all_category = Category::where('status', 1)->get();
-        $show_featurd = Featured::where('status', 1)->orderBy('id', 'asc')->get();
+        $show_featurd = Featured::where('status', 1)->orderBy('id', 'desc')->take(4)->get();
         $show_work = Work::where('status', 1)->orderBy('id', 'asc')->take(3)->get();
         $show_client = Clients::where('status', 1)->orderBy('id', 'desc')->get();
         $show_about = Footer::where('status', 1)->take(1)->get();
@@ -66,12 +67,13 @@ class FrontendController extends Controller
         }else{
         }
         $show_logo = Logo::where('status', 1)->get();
+        $all_category = SubCategory::all();
         $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
         $show_category = Category::orderBy('id', 'asc')
             ->where('status', 1)
             ->take(6)
             ->get();
-        return view('front.category.category-page', compact('category_product', 'show_logo', 'show_category', 'show_slider', 'show_about'));
+        return view('front.category.category-page', compact('category_product', 'show_logo', 'show_category', 'show_slider', 'show_about', 'all_category'));
     }
 
     public function featured_page($id){
@@ -112,6 +114,9 @@ class FrontendController extends Controller
             ->get();
         return view('front.products.product-details', compact('details_product', 'show_logo', 'show_slider','show_category', 'show_about', 'customer_product_details'));
     }
+
+
+
 
     public function contact_info(Request $request){
 
@@ -204,6 +209,7 @@ class FrontendController extends Controller
 
     public function search(Request $request){
         $product_search = $request->search;
+        $sub_category = SubCategory::all();
         $show_logo = Logo::where('status', 1)->get();
         $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
         $all_category = Category::where('status', 1)->get();
@@ -219,7 +225,8 @@ class FrontendController extends Controller
         $products = Product::orderBy('id', 'desc')
             ->where('name', 'like', '%'.$product_search.'%')
             ->orwhere('short_description', 'like', '%'.$product_search.'%')
-            ->get();
+            ->orwhere('keyword', 'like', '%'.$product_search.'%')
+            ->paginate(6);
 
         return view('front.home.search', compact('products',
             'show_logo',
@@ -230,7 +237,8 @@ class FrontendController extends Controller
             'show_client',
             'show_about',
             'show_customer_product',
-            'show_category'
+            'show_category',
+            'sub_category'
         ));
     }
 
@@ -261,6 +269,7 @@ class FrontendController extends Controller
             Image::make($productImage)->resize(350, 350)->save($teamImgUrl);
             $customer_product->image = $fileName;
         }
+//        $total = $request->price*20/100;
 
         $customer_product->main_category_id = $request->main_category_id;
         $customer_product->sub_category_id = $request->sub_category_id;
@@ -296,6 +305,11 @@ class FrontendController extends Controller
     public function customer_product_update(Request $request){
         $customer_product_update = CustomerProduct::find($request->id);
 
+        if ($customer_product_update){
+            $customer_product_update->status = 0;
+        }
+        $customer_product_update->update;
+
         if ($request->hasFile('image')){
             if ($request->image){
                 unlink(public_path('customer-images/'.$customer_product_update->image));
@@ -317,8 +331,9 @@ class FrontendController extends Controller
         $customer_product_update->name = $request->name;
         $customer_product_update->price = $request->price;
         $customer_product_update->description = $request->description;
-        $customer_product_update->user_id = Session::get('id');
+        $customer_product_update->user_id = Session::get('user_id');
         $customer_product_update->save();
+
         Toastr::success('Your Product has been Updated,Need to Admin Approved For Published', 'Success');
         return redirect('/customer/dashboard');
     }
@@ -436,6 +451,45 @@ class FrontendController extends Controller
         }
 
 
+
+        public function admin_product(Request $request){
+            $this->validate($request,[
+               'name'  => 'required',
+               'phone'  => 'required',
+               'email'  => 'required|email',
+               'confirm'  => 'required',
+               'accept'  => 'required',
+            ]);
+
+            $admin_product = new adminProduct();
+            $admin_product->name = $request->name;
+            $admin_product->phone = $request->phone;
+            $admin_product->email = $request->email;
+            $admin_product->confirm = $request->confirm;
+            $admin_product->accept = $request->accept;
+            $admin_product->price = $request->price;
+            $admin_product->product_id = $request->product_id;
+            if ($admin_product->save()){
+                Toastr::success('Your Order Successfully Done.  As Soon as Possible we will Contact You', 'Success');
+                return redirect()->back();
+            }else{
+                Toastr::error('Your Order not Confirm Something is wrong information', 'Error');
+                return redirect()->back();
+            }
+        }
+
+        public function more_featured(){
+            $show_logo = Logo::where('status', 1)->get();
+            $all_category = SubCategory::all();
+            $show_slider = Slider::where('status', 1)->orderBy('id', 'desc')->take(1)->get();
+            $show_category = Category::orderBy('id', 'asc')
+                ->where('status', 1)
+                ->take(6)
+                ->get();
+            $show_featurd = Featured::where('status', 1)->orderBy('id', 'asc')->paginate(6);
+            $show_about = Footer::where('status', 1)->take(1)->get();
+        return view('front.featured.more-featured', compact('show_logo', 'all_category', 'show_slider', 'show_category', 'show_featurd', 'show_about'));
+        }
 
 
 }

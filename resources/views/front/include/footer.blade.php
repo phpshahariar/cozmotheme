@@ -13,7 +13,7 @@
                     </div>
                     @endforeach
                     <div class="col-md-2">
-                        <h2>Popular</h2>
+                        <h2>Category</h2>
                         <br/>
                         <ul>
                             @foreach($show_category as $category)
@@ -25,26 +25,15 @@
                         <h2>Company</h2>
                         <br/>
                         <ul>
-                            @foreach($show_category as $category)
-                                <li style="line-height: 35px;"><a href="{{ $category->id }}" style="text-decoration: none; font-weight: bold; color: #0a8cf0;">{{ $category->main_category }}</a> </li>
-                            @endforeach
+                            <li>
+                                <p>Show Dynamic Page</p>
+                            </li>
                         </ul>
                     </div>
                         <div class="col-md-4" style="border: 0px solid red;">
-                            <h2 style="text-align: center;">Contact US</h2>
+                            <h2 style="text-align: center;">Support</h2>
                             <br/>
-                            <form action="{{ url('/contact/info') }}" method="POST" class="form-horizontal">
-                                @csrf
-                                <input type="text" class="form-control" name="name" placeholder="Enter Your Full Name.......">
-                                <span style="color: red">{{ $errors->has('name') ? $errors->first('name') : ' ' }}</span>
-                                <br/>
-                                <input type="text" class="form-control" name="number" placeholder="Enter Your Number.......">
-                                <span style="color: red">{{ $errors->has('number') ? $errors->first('number') : ' ' }}</span>
-                                <br/>
-                                <input type="text" class="form-control" style="height: 100px;" name="comments" placeholder="Enter Your Comments.......">
-                                <br/>
-                                <input type="submit" class="btn btn-block btn-danger" name="btn">
-                            </form>
+                            <p style="margin-left: 50px;">Support Team Information</p>
                         </div>
                 </div>
             </div>

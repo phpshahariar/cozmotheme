@@ -1,31 +1,23 @@
 @extends('front.master')
 
 @section('content')
-    <section class="hero-area bgimage">
+    <section class=" bgimage">
         @foreach($show_slider as $slider)
             <div class="bg_image_holder">
                 <img src="{{ asset('/slider-images/'.$slider->image) }}" alt="background-image">
             </div>
-            <div class="hero-content content_above">
+            <div class="hero-content content_above" style="height: 300px;">
                 <div class="content-wrapper">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="hero__content__title">
-                                    <h1 class="display-3">
-                                        {!! $slider->title !!}
-                                    </h1>
-                                    <p class="tagline">
-                                        {!! $slider->short_description !!}
-                                    </p>
-                                </div>
                                 <!-- end .hero__btn-area-->
                                 <div class="search-area">
                                     <div class="row">
                                         <div class="col-md-10 offset-md-1">
-                                            <div class="search_box">
+                                            <div class="search_box" style="margin-top: 100px;">
                                                 <form action="{{ route('search')}}" method="GET">
-                                                    <input type="text" name="search" class="text_field typeahead" placeholder="Search your products...">
+                                                    <input type="text" required name="search" class="text_field typeahead" placeholder="Search your products...">
                                                     <div class="search__select select-wrap">
                                                         <select name="category" class="select--field">
                                                             <option value="">All Categories</option>
@@ -49,120 +41,119 @@
             </div>
         @endforeach
     </section>
-    <section class="featured-area section--padding bgcolor">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title">
-                        <h1>Featured Products</h1>
-                    </div>
-                </div><!-- Ends: .col-md-12 -->
-                <div class="col-md-12">
-                    <div class="product-slide-area owl-carousel">
-                        <!-- Ends: .product-single -->
-                        <!-- Ends: .product-single -->
-                        @foreach($show_featurd as $featurd)
-                            <div class="product-single">
-                                <div class="featured-badge">
-                                    <span>Featured</span>
-                                </div>
-                                <div class="product-thumb">
-                                    <figure>
-                                        <img src="{{ asset('featured-images/'.$featurd->image) }}" height="490" width="350" alt="" class="img-fluid">
-                                        <figcaption>
-                                            <ul class="list-unstyled">
-                                                <li>
-                                                    <a href="">
-                                                        <span class="icon-basket"></span>
-                                                    </a>
-                                                </li>
-                                                <li>
-                                                    <a href="">Live Demo</a>
-                                                </li>
-                                            </ul>
-                                        </figcaption>
-                                    </figure>
-                                </div><!-- Ends: .product-thumb -->
-                                <div class="product-excerpt">
-                                    <h3>
-                                        <a href="{{ url('/featured-details/'.$featurd->id) }}">{!! $featurd->featured_name !!}</a>
-                                    </h3>
-                                    <ul class="titlebtm">
-                                        <li>
-                                            <img src="{{ asset('featured-images/'.$featurd->image) }}" height="30" width="40" alt="" class="img-fluid">
-                                            <p>
-                                                <a href="#">{!! $featurd->category->main_category !!}</a>
-                                            </p>
-                                        </li>
-                                        <li class="product_cat">
-                                            in
-                                            <a href="#">{!! $featurd->sub_category->sub_category_name !!}</a>
-                                        </li>
-                                    </ul>
-                                    <ul class="product-facts clearfix">
-                                        <li class="price"><span>BDT. {{ number_format($featurd->price,2) }}</span></li>
-                                        <li class="sells">
-                                            <span class="icon-eye"></span>{{ $featurd->view_count}}
-                                        </li>
-                                        <li class="product-fav">
-                                            <span class="icon-heart" title="Add to collection" data-toggle="tooltip"></span>
-                                        </li>
-                                        <li class="product-rating">
-                                            <ul class="list-unstyled">
-                                                <li class="stars">
-                                                    <span><i class="fa fa-star"></i></span>
-                                                    <span><i class="fa fa-star"></i></span>
-                                                    <span><i class="fa fa-star"></i></span>
-                                                    <span><i class="fa fa-star"></i></span>
-                                                    <span><i class="fa fa-star"></i></span>
-                                                </li>
-                                                <li class="total-rating">
-                                                    <span>(5)</span>
-                                                </li>
-                                            </ul>
-                                        </li>
-                                    </ul>
-                                </div><!-- Ends: .product-excerpt -->
-                            </div>
-                        @endforeach
-                    <!-- Ends: .product-single -->
-                    </div>
-                    <div class="more-item-btn">
-                        <a href="#" class="btn btn--lg btn-secondary">More Featured Items</a>
-                    </div>
-                </div><!-- Ends: .produ-slide-area -->
-            </div>
-        </div>
-    </section><!-- ends: .featured-area -->
+    <!-- ends: .featured-area -->
     <section class="latest-product section--padding">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title">
-                        <h1>Newest Products</h1>
-                    </div>
-                </div><!-- Ends: .col-md-12 -->
-                <div class="col-lg-12">
+                <div class="col-xl-3 col-lg-4 col-md-12 order-lg-0 order-md-1 order-sm-1 order-1">
+                    <aside class="sidebar product--sidebar">
+                        <div class="sidebar-card card--category">
+                            <a class="card-title" href="#collapse1" data-toggle="collapse" href="#collapse1" role="button" aria-expanded="false" aria-controls="collapse1">
+                                <h5>Main Categories
+                                    <span class="icon-arrow-down"></span>
+                                </h5>
+                            </a>
+                            <div class="collapse show collapsible-content" id="collapse1">
+                                <ul class="card-content">
+                                    @foreach($show_category as $main)
+                                        <li>
+                                            <a href="#">
+                                                {{ $main->main_category }}
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div><!-- end .collapsible_content -->
+                        </div><!-- end .sidebar-card -->
+                        <div class="sidebar-card card--filter">
+                            <a class="card-title" href="#collapse2" data-toggle="collapse" href="#collapse2" role="button" aria-expanded="false" aria-controls="collapse2">
+                                <h5>Sub Category
+                                    <span class="icon-arrow-down"></span>
+                                </h5>
+                            </a>
+                            <div class="collapse show collapsible-content" id="collapse2">
+                                <ul class="card-content">
+                                    @php($i = 0)
+                                    @foreach($sub_category as $all)
+                                        <li>
+                                            <span class="icon-arrow-right-circle"></span>
+                                            <a href="{{url('/category-page/' .$all->id)}}" style="text-decoration: none; color: #495057;">
+                                                {{ $all->sub_category_name }}
+
+                                            </a>
+                                        </li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        </div><!-- end .sidebar-card -->
+                        <div class="sidebar-card card--slider">
+                            <a class="card-title" href="#collapse3" data-toggle="collapse" href="#collapse3" role="button" aria-expanded="false" aria-controls="collapse3">
+                                <h5>Filter Products
+                                    <span class="icon-arrow-down"></span>
+                                </h5>
+                            </a>
+                            <div class="collapse show collapsible-content" id="collapse3">
+                                <div class="card-content">
+                                    <div class="range-slider price-range"></div>
+                                    <div class="price-ranges">
+                                        <span class="from rounded">$30</span>
+                                        <span class="to rounded">$300</span>
+                                    </div>
+                                    <div class="search-update">
+                                        <a href="#" class="btn btn-sm btn-primary">Search Update</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div><!-- end .sidebar-card -->
+                        {{--                        <div class="sidebar-card card--category card--date-range">--}}
+                        {{--                            <a class="card-title" href="#collapse4" data-toggle="collapse" href="#collapse4" role="button" aria-expanded="false" aria-controls="collapse4">--}}
+                        {{--                                <h5>Date Range--}}
+                        {{--                                    <span class="icon-arrow-down"></span>--}}
+                        {{--                                </h5>--}}
+                        {{--                            </a>--}}
+                        {{--                            <div class="collapse show collapsible-content" id="collapse4">--}}
+                        {{--                                <ul class="card-content">--}}
+                        {{--                                    <li>--}}
+                        {{--                                        <a href="#">--}}
+                        {{--                                            Last Week--}}
+                        {{--                                            <span class="item-count">35</span>--}}
+                        {{--                                        </a>--}}
+                        {{--                                    </li>--}}
+                        {{--                                    <li>--}}
+                        {{--                                        <a href="#">--}}
+                        {{--                                            Last Month--}}
+                        {{--                                            <span class="item-count"> 45</span>--}}
+                        {{--                                        </a>--}}
+                        {{--                                    </li>--}}
+                        {{--                                    <li>--}}
+                        {{--                                        <a href="#">--}}
+                        {{--                                            Last 6 Month--}}
+                        {{--                                            <span class="item-count">13</span>--}}
+                        {{--                                        </a>--}}
+                        {{--                                    </li>--}}
+                        {{--                                    <li>--}}
+                        {{--                                        <a href="#">--}}
+                        {{--                                            Last Year--}}
+                        {{--                                            <span class="item-count">08</span>--}}
+                        {{--                                        </a>--}}
+                        {{--                                    </li>--}}
+                        {{--                                </ul>--}}
+                        {{--                            </div><!-- end .collapsible_content -->--}}
+                        {{--                        </div><!-- end .sidebar-card -->--}}
+                    </aside>
+                    <!-- end aside -->
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-12 order-lg-1 order-md-0 order-sm-0 order-0 product-list">
                     <div class="product-list">
-                        <ul class="nav nav__product-list" id="lp-tab" role="tablist">
-                            <li class="nav-item">
-                                <a class="nav-link active" data-toggle="tab" href="#all_tab">All Items</a>
-                            </li>
-                            @foreach($show_category as $key => $c_info)
-                                <li class="nav-item">
-                                    <a class="nav-link" data-toggle="tab" href="#tab-{{$c_info->id}}">{!! $c_info->main_category !!}</a>
-                                </li>
-                            @endforeach
-                        </ul>
                         <div class="tab-content" id="lp-tab-content">
 
                             <div class="tab-pane fade show active" id="all_tab" role="tabpanel" aria-labelledby="tab-one">
                                 <div class="row">
                                     @foreach($products as $key => $product)
-                                    <div  class="col-lg-4 col-md-6">
+                                    <div  class="col-lg-6 col-md-6">
                                         <div class="product-single latest-single">
                                             <div class="product-thumb">
-                                                <figure>
+                                                <figure style="height: 230px; width: 360px;">
                                                     <img src="{{ asset('/product-images/'.$product->image) }}"/>
                                                     <figcaption>
                                                         <ul class="list-unstyled">
@@ -174,7 +165,7 @@
                                                 </figure>
                                             </div>
                                             <!-- Ends: .product-thumb -->
-                                            <div class="product-excerpt">
+                                            <div class="product-excerpt" style="height: 190px; width: 360px;">
                                                 <h5>
                                                     <a href="{{ url('/new/product/details/' .$product->id) }}">{{ substr($product->short_description,0,50) }}</a>
                                                 </h5>
@@ -199,6 +190,7 @@
                                     </div>
                                     @endforeach
                                 </div>
+                                {{ $products->links() }}
                             </div><!-- Ends: .tab-pane -->
 
                             @foreach($all_category as $c_info)
@@ -309,161 +301,14 @@
                             </div>
                             <!-- Ends: .tab-pane -->
                         </div>
-                        <div class="text-center m-top-20">
-                            <a href="{{ url('/more/product') }}" target="_blank" class="btn btn--lg btn-primary">More New Products</a>
-                        </div>
+
                     </div>
                     <!-- Ends: .product-list -->
                 </div>
             </div>
         </div>
     </section><!-- ends: .latest-product -->
-    <section class="services ">
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-single">
-                        <span class="icon-lock"></span>
-                        <h4>Secure Paument</h4>
-                        <p>Pellentesque facilisis kamcorper sapien interdum magna.</p>
-                    </div>
-                </div><!-- Ends: .col-sm-6 -->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-single">
-                        <span class="icon-like"></span>
-                        <h4>Quality Products</h4>
-                        <p>Pellentesque facilisis kamcorper sapien interdum magna.</p>
-                    </div>
-                </div><!-- Ends: .col-sm-6 -->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-single">
-                        <span class="icon-wallet"></span>
-                        <h4>14 Days Money Backs</h4>
-                        <p>Pellentesque facilisis kamcorper sapien interdum magna.</p>
-                    </div>
-                </div><!-- Ends: .col-sm-6 -->
-                <div class="col-lg-3 col-sm-6">
-                    <div class="service-single">
-                        <span class="icon-people"></span>
-                        <h4>24/7 Customer Care</h4>
-                        <p>Pellentesque facilisis kamcorper sapien interdum magna.</p>
-                    </div>
-                </div><!-- Ends: .col-sm-6 -->
-            </div>
-        </div>
-    </section><!-- ends: .services -->
-    <section class="counter-up-area bgimage">
-        <div class="bg_image_holder">
-            <img src="{{ asset('/frontend/') }}/img/bg.jpg" alt="">
-        </div><!-- start .container -->
-        <div class="container content_above">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="counter-up">
-                        <div class="counter warning">
-                            <span class="icon-briefcase"></span>
-                            <span class="count_up">38,436</span>
-                            <p>Items for sale</p>
-                        </div><!-- ends: .counter -->
-                        <div class="counter info">
-                            <span class="icon-basket"></span>
-                            <span class="count_up">68,257</span>
-                            <p>Total Sale</p>
-                        </div><!-- ends: .counter -->
-                        <div class="counter secondary">
-                            <span class="icon-emotsmile"></span>
-                            <span class="count_up">25,567</span>
-                            <p>Happy Customers</p>
-                        </div><!-- ends: .counter -->
-                        <div class="counter danger">
-                            <span class="icon-people"></span>
-                            <span class="count_up">76,458</span>
-                            <p>Members</p>
-                        </div><!-- ends: .counter -->
-                    </div><!-- ends: .counter-up -->
-                </div><!-- end .col-md-12 -->
-            </div>
-        </div><!-- end .container -->
-    </section>
-    <section class="working-process section--padding">
-        <div class="container">
-            <div class="row">
-                <!-- Start Section Title -->
-                <div class="col-md-12">
-                    <div class="section-title">
-                        <h1>It Works Really Easy</h1>
-                    </div>
-                </div>
-                <!-- Ends: .col-md-12/Section Title -->
-                @foreach($show_work as $work)
-                <div class="col-md-12 step-single">
-                    <div class="step-count">
-                        <span>Step {{ $work->id }}</span>
-                        <span><i class="fa fa-long-arrow-down"></i></span>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6 step-text r-padding">
-                            <div>
-                                <h2>{!! $work->title !!}</h2>
-                                <p>
-                                    {!! substr($work->short_description,0,300) !!}....
-                                </p>
-                            </div>
-                        </div>
-                        <div class="col-md-6 step-image l-padding">
-                            <div>
-                                <img src="{!! asset('work-images/'.$work->image) !!}" alt="" class="img-fluid">
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                @endforeach
-                    <!-- Ends .step-single -->
-            <!-- Ends .step-single -->
-                <!-- Ends .step-single -->
-            </div>
-        </div>
-    </section><!-- ends: .wroking-process -->
-    <!-- ends: .testimonial2 -->
-    <!-- ends: .cta -->
-    <h2 style="text-align: center; color: #f05b44;">Our Clients</h2>
-    <section class="clients-logo">
-        <div class="container">
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="partners">
-                        @foreach($show_client as $client)
-                            <div class="partner">
-                                    <img src="{{ asset('clients-images/'.$client->client_logo) }}" alt="partner image">
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    </section><!-- ends: .clients-logo -->
-    <section class="subscribe bgimage">
-        <div class="bg_image_holder">
-            <img src="{{ asset('/frontend/') }}/img/subscribe-bg.png" alt="">
-        </div>
-        <div class="container">
-            <div class="row">
-                <div class="col-lg-6 offset-lg-3 col-md-12 subscribe-inner">
-                    <div class="envelope-svg">
-                        <img src="{{ asset('/frontend/') }}/img/svg/newsletter.svg" alt="" class="svg">
-                    </div>
-                    <p>Subscribe to get the latest themes, templates and offer information. Don't worry, we won't send
-                        spam!</p>
-                    <form action="#" class="subscribe-form">
-                        <div class="form-group">
-                            <input type="text"  placeholder="Enter your email address" required>
-                            <button type="submit" class="btn btn--sm btn-primary">Subscribe</button>
-                        </div>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </section>
+
 
 
 

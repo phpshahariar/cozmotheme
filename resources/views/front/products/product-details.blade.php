@@ -89,14 +89,14 @@
 
         <div class="modal fade" id="buyProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="{{ url('/customer/confirm/order') }}"  method="POST" id="addCustomerForm">
+                <form action="{{ url('/new/customer/product/order') }}"  method="POST" id="addCustomerForm">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
-                            <h5 class="modal-title" id="exampleModalLabel">Please Add Your Information</h5>
                             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                 <span aria-hidden="true">&times;</span>
                             </button>
+                            <h5 class="modal-title" id="exampleModalLabel">Please Add Your Information</h5>
                         </div>
                         <div class="modal-body">
                             <div class="input-group mb-3">
@@ -111,7 +111,7 @@
                                     <span class="input-group-text" id="basic-addon1"><i class="icon-phone"></i></span>
                                 </div>
                                 <input type="number" class="form-control" required placeholder="Phone Number" name="phone">
-                                <span style="color: red"> {{ $errors->has('balance') ? $errors->first('balance') : ' ' }}</span>
+                                <span style="color: red"> {{ $errors->has('phone') ? $errors->first('phone') : ' ' }}</span>
                             </div>
                             <div class="input-group mb-3">
                                 <div class="input-group-prepend">
@@ -119,6 +119,8 @@
                                 </div>
                                 <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
+                                <input type="text" class="form-control"  name="price" value="{{ $product->balance }}">
+                                <input type="text" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
                             </div>
 
                             <div class="form-group form-check">

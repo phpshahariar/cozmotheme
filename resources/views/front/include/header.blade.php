@@ -355,13 +355,20 @@
                                         </div>
                                     </div>
                                     <ul>
-                                        <li>
-                                            <a href="{{ url('/customer/info') }}">
-                                                <span class="icon-user"></span>Registration</a>
-                                        </li>
+                                        @if(Session::get('user_id'))
+                                            <li>
+                                                <a href="{{ url('/customer/dashboard') }}">
+                                                    <span class="icon-user"></span>{{ Session::get('name') }}</a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ url('/customer/info') }}">
+                                                    <span class="icon-user"></span>Registration</a>
+                                            </li>
+                                        @endif
                                         @if(Session::get('user_id'))
                                         <li>
-                                            <a href="dashboard.html">
+                                            <a href="{{ url('/customer/dashboard') }}">
                                                 <span class="icon-home"></span> Dashboard</a>
                                         </li>
                                         <li>
@@ -385,15 +392,15 @@
                                                 <span class="icon-chart"></span>Sale Statement</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard-upload.html">
+                                            <a href="#" data-toggle="modal" data-target=".customer-product">
                                                 <span class="icon-cloud-upload"></span>Upload Item</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard-manage-item.html">
+                                            <a href="{{ url('/customer/dashboard') }}">
                                                 <span class="icon-notebook"></span>Manage Item</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard-withdrawal.html">
+                                            <a href="{{url('/sale/statement')}}">
                                                 <span class="icon-briefcase"></span>Withdrawals</a>
                                         </li>
                                         <li>
@@ -464,19 +471,19 @@
                                                 <span class="icon-user"></span>Profile</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard.html">
+                                            <a href="{{ url('/customer/dashboard') }}">
                                                 <span class="icon-home"></span> Dashboard</a>
                                         </li>
                                         <li>
-                                            <a href="dashboard-setting.html">
+                                            <a href="#">
                                                 <span class="icon-settings"></span> Setting</a>
                                         </li>
                                         <li>
-                                            <a href="cart.html">
+                                            <a href="#">
                                                 <span class="icon-basket"></span>Purchases</a>
                                         </li>
                                         <li>
-                                            <a href="favourites.html">
+                                            <a href="#">
                                                 <span class="icon-heart"></span> Favourite</a>
                                         </li>
                                         <li>

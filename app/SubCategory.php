@@ -13,4 +13,8 @@ class SubCategory extends Model
     public function product(){
         return $this->belongsTo('App\Product', 'sub_category_id', 'id');
     }
+
+    public function featured(){
+        return $this->belongsTo('App\Featured', 'sub_category_id', 'id');
+    }
 }

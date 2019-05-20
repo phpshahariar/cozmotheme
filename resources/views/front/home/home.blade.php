@@ -1,31 +1,23 @@
 @extends('front.master')
 
 @section('content')
-    <section class="hero-area bgimage">
+    <section class=" bgimage">
         @foreach($show_slider as $slider)
             <div class="bg_image_holder">
                 <img src="{{ asset('/slider-images/'.$slider->image) }}" alt="background-image">
             </div>
-            <div class="hero-content content_above">
+            <div class="hero-content content_above" style="height: 300px;">
                 <div class="content-wrapper">
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <div class="hero__content__title">
-                                    <h1 class="display-3">
-                                        {!! $slider->title !!}
-                                    </h1>
-                                    <p class="tagline">
-                                        {!! $slider->short_description !!}
-                                    </p>
-                                </div>
                                 <!-- end .hero__btn-area-->
                                 <div class="search-area">
                                     <div class="row">
                                         <div class="col-md-10 offset-md-1">
-                                            <div class="search_box">
+                                            <div class="search_box" style="margin-top: 100px;">
                                                 <form action="{{ route('search')}}" method="GET">
-                                                    <input type="text" name="search" class="text_field typeahead" placeholder="Search your products...">
+                                                    <input type="text" required name="search" class="text_field typeahead" placeholder="Search your products...">
                                                     <div class="search__select select-wrap">
                                                         <select name="category" class="select--field">
                                                             <option value="">All Categories</option>
@@ -68,16 +60,16 @@
                                 </div>
                                 <div class="product-thumb">
                                     <figure>
-                                        <img src="{{ asset('featured-images/'.$featurd->image) }}" height="490" width="350" alt="" class="img-fluid">
+                                        <img src="{{ asset('featured-images/'.$featurd->image) }}" height="210" width="360" alt="" class="img-fluid">
                                         <figcaption>
                                             <ul class="list-unstyled">
                                                 <li>
-                                                    <a href="">
-                                                        <span class="icon-basket"></span>
+                                                    <a href="{{ url('/featured-details/'.$featurd->id) }}">
+                                                        <span>BUY NOW</span>
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="">Live Demo</a>
+                                                    <a href="#">Live Demo</a>
                                                 </li>
                                             </ul>
                                         </figcaption>
@@ -128,7 +120,7 @@
                     <!-- Ends: .product-single -->
                     </div>
                     <div class="more-item-btn">
-                        <a href="#" class="btn btn--lg btn-secondary">More Featured Items</a>
+                        <a href="{{ url('/more/featured') }}" class="btn btn--lg btn-secondary">More Featured Items</a>
                     </div>
                 </div><!-- Ends: .produ-slide-area -->
             </div>
@@ -163,11 +155,11 @@
                                         <div class="product-single latest-single">
                                             <div class="product-thumb">
                                                 <figure>
-                                                    <img src="{{ asset('/product-images/'.$product->image) }}"/>
+                                                    <img src="{{ asset('/product-images/'.$product->image) }}" width="310" height="210"/>
                                                     <figcaption>
                                                         <ul class="list-unstyled">
 {{--                                                            <li><a href="" data-toggle="modal" data-target="#BuyNow"><span class="icon-basket"></span></a></li>--}}
-                                                            <li><a href="#" data-toggle="modal" data-target="#buyProduct">Buy Now</a></li>
+                                                            <li><a href="{{ url('/new/product/details/' .$product->id) }}">Buy Now</a></li>
                                                             <li><a href="">Live Demo</a></li>
                                                         </ul>
                                                     </figcaption>
@@ -181,7 +173,7 @@
                                                 <ul class="titlebtm">
                                                     <li>
                                                         <img src="{{ asset('/product-images/'.$product->image) }}" height="30" width="30"/>
-                                                        <p><a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->name }}</a></p>
+                                                        <p><a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->name }} || {{ $product->category->main_category }}</a></p>
                                                     </li>
                                                 </ul>
                                                 <ul class="product-facts clearfix">
@@ -223,7 +215,7 @@
                                                     <figcaption>
                                                         <ul class="list-unstyled">
                                                             {{--                                                            <li><a href="" data-toggle="modal" data-target="#BuyNow"><span class="icon-basket"></span></a></li>--}}
-                                                            <li><a href="#" data-toggle="modal" data-target="#buyProduct">Buy Now</a></li>
+                                                            <li><a href="{{ url('/new/product/details/'.$product->id) }}" >Buy Now</a></li>
                                                             <li><a href="">Live Demo</a></li>
                                                         </ul>
                                                     </figcaption>
@@ -237,7 +229,7 @@
                                                 <ul class="titlebtm">
                                                     <li>
                                                         <img src="{{ asset('/product-images/'.$product->image) }}" height="30" width="30"/>
-                                                        <p><a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->name }}</a></p>
+                                                        <p><a href="{{ url('/new/product/details/' .$product->id) }}">{{ $c_info->main_category }}  </a></p>
                                                     </li>
                                                 </ul>
                                                 <ul class="product-facts clearfix">
@@ -259,54 +251,58 @@
                             </div><!-- Ends: .tab-pane -->
                             @endforeach
                             <!-- Ends: .tab-pane -->
-                            <div class="modal fade" id="buyProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
-                                <div class="modal-dialog" role="document">
-                                    <form action="{!! url('/buy/product/info') !!}"  method="POST" id="adddepositform">
-                                        @csrf
-                                        <div class="modal-content">
-                                            <div class="modal-header">
-                                                <h5 class="modal-title" id="exampleModalLabel">Please Add Your Information</h5>
-                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                                                    <span aria-hidden="true">&times;</span>
-                                                </button>
-                                            </div>
-                                            <div class="modal-body">
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>
-                                                    </div>
-                                                    <input type="text" class="form-control" placeholder="Name" name="name">
-                                                    <span style="color: red"> {{ $errors->has('name') ? $errors->first('name') : ' ' }}</span>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i class="icon-phone"></i></span>
-                                                    </div>
-                                                    <input type="number" class="form-control" placeholder="Phone Number" name="phone">
-                                                    <span style="color: red"> {{ $errors->has('balance') ? $errors->first('balance') : ' ' }}</span>
-                                                </div>
-                                                <div class="input-group mb-3">
-                                                    <div class="input-group-prepend">
-                                                        <span class="input-group-text" id="basic-addon1"><i class="icon-envelope"></i></span>
-                                                    </div>
-                                                    <input type="email" class="form-control" placeholder="Enter Your Email..." name="email">
-                                                    <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
-                                                </div>
-                                                <div class="form-group form-check">
-                                                    <input type="checkbox" class="form-check-input" name="confirm" id="confirm">
-                                                    <label class="form-check-label" for="confirm">Confirm Order</label><br/>
-                                                    <input type="checkbox" class="form-check-input" name="confirm" id="confirm">
-                                                    <label class="form-check-label" for="confirm">Yes I accept Your Trams & Condition</label>
-                                                </div>
-                                            </div>
-                                            <div class="modal-footer">
-                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                                                <button type="submit" class="btn btn-primary">SubmiT</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
-                            </div>
+{{--                            <div class="modal fade" id="buyProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">--}}
+{{--                                <div class="modal-dialog" role="document">--}}
+{{--                                    <form action="{{ url('/customer/product/order') }}"  method="POST" id="addCustomerForm">--}}
+{{--                                        @csrf--}}
+{{--                                        <div class="modal-content">--}}
+{{--                                            <div class="modal-header">--}}
+{{--                                                <button type="button" class="close" data-dismiss="modal" aria-label="Close">--}}
+{{--                                                    <span aria-hidden="true">&times;</span>--}}
+{{--                                                </button>--}}
+{{--                                                <h5 class="modal-title" id="exampleModalLabel">Please Add Your Information</h5>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="modal-body">--}}
+{{--                                                <div class="input-group mb-3">--}}
+{{--                                                    <div class="input-group-prepend">--}}
+{{--                                                        <span class="input-group-text" id="basic-addon1"><i class="fa fa-user"></i></span>--}}
+{{--                                                    </div>--}}
+{{--                                                    <input type="text" class="form-control" required placeholder="Name" name="name">--}}
+{{--                                                    <span style="color: red"> {{ $errors->has('name') ? $errors->first('name') : ' ' }}</span>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="input-group mb-3">--}}
+{{--                                                    <div class="input-group-prepend">--}}
+{{--                                                        <span class="input-group-text" id="basic-addon1"><i class="icon-phone"></i></span>--}}
+{{--                                                    </div>--}}
+{{--                                                    <input type="number" class="form-control" required placeholder="Phone Number" name="phone">--}}
+{{--                                                    <span style="color: red"> {{ $errors->has('balance') ? $errors->first('balance') : ' ' }}</span>--}}
+{{--                                                </div>--}}
+{{--                                                <div class="input-group mb-3">--}}
+{{--                                                    <div class="input-group-prepend">--}}
+{{--                                                        <span class="input-group-text" id="basic-addon1"><i class="icon-envelope"></i></span>--}}
+{{--                                                    </div>--}}
+{{--                                                    <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">--}}
+{{--                                                    <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>--}}
+{{--                                                    <input type="hidden" class="form-control"  name="price" value="{{ $product->price }}">--}}
+{{--                                                    <input type="hidden" class="form-control"  name="user_id" value="{{ $product->user_id }}">--}}
+{{--                                                    <input type="hidden" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">--}}
+{{--                                                </div>--}}
+
+{{--                                                <div class="form-group form-check">--}}
+{{--                                                    <input type="checkbox" class="form-check-input" value="confirmed" required name="confirm" id="confirm">--}}
+{{--                                                    <label class="form-check-label" for="confirm">Confirm Order</label><br/>--}}
+{{--                                                    <input type="checkbox" value="confirmed" class="form-check-input" required name="accept" id="accept">--}}
+{{--                                                    <label class="form-check-label" for="confirm">Yes I accept Your Trams & Condition</label>--}}
+{{--                                                </div>--}}
+{{--                                            </div>--}}
+{{--                                            <div class="modal-footer">--}}
+{{--                                                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>--}}
+{{--                                                <button type="submit" class="btn btn-primary">SubmiT</button>--}}
+{{--                                            </div>--}}
+{{--                                        </div>--}}
+{{--                                    </form>--}}
+{{--                                </div>--}}
+{{--                            </div>--}}
                             <!-- Ends: .tab-pane -->
                         </div>
                         <div class="text-center m-top-20">

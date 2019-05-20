@@ -34,14 +34,14 @@
                     <td>TK. {!! number_format($featured->price,2) !!}</td>
                     <td>{!! substr($featured->long_description,0,50) !!}.....</td>
                     <td>{!! $featured->status == 1 ? 'Active' : 'Pending'!!}</td>
-                    <td width="20%">
+                    <td>
                         @if($featured->status == 1)
-                            <a href="" class="btn btn-sm btn-success">Active</a>
+                            <a href="{{url('/active/featured/'.$featured->id)}}" class="badge badge-success">Active</a>
                         @else
-                            <a href="" class="btn btn-sm btn-warning">Pending</a>
+                            <a href="{{url('/pending/featured/'.$featured->id)}}" class="badge badge-warning">Pending</a>
                         @endif
-                        <a href="" class="btn btn-sm btn-info">Edit</a>
-                        <a href="" onclick="return confirm('Are You Sure! Delete This Information?');" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{{url('/edit/featured/'.$featured->id)}}" class="badge badge-info">Edit</a>
+                        <a href="{{url('/delete/featured/'.$featured->id)}}" onclick="return confirm('Are You Sure! Delete This Information?');" class="badge badge-danger">Delete</a>
                     </td>
                 </tr>
             @endforeach

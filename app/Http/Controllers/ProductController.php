@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\adminProduct;
 use App\Cashout;
 use App\Category;
 use App\Customer;
@@ -12,31 +13,35 @@ use Brian2694\Toastr\Toastr;
 use Illuminate\Http\Request;
 use Image;
 use Session;
+use DB;
 class ProductController extends Controller
 {
-    public function index_product(){
+    public function index_product()
+    {
         $categories = Category::all();
         $sub_categories = SubCategory::all();
         $show_product = Product::all();
         return view('admin.product.product', compact('show_product', 'sub_categories', 'categories'));
     }
 
-    public function create_product(){
+    public function create_product()
+    {
         $categories = Category::all();
         $sub_categories = SubCategory::all();
         return view('admin.product.create', compact('categories', 'sub_categories'));
     }
 
-    public function save_product(Request $request){
+    public function save_product(Request $request)
+    {
         $save_product = new Product();
 
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $teamImage = $request->file('image');
             $imageName = $teamImage->getClientOriginalName();
-            $fileName = time().'_product_'.$imageName;
+            $fileName = time() . '_product_' . $imageName;
             $directory = public_path('/product-images/');
-            $teamImgUrl = $directory.$fileName;
+            $teamImgUrl = $directory . $fileName;
             Image::make($teamImage)->resize(350, 350)->save($teamImgUrl);
             $save_product->image = $fileName;
         }
@@ -53,39 +58,43 @@ class ProductController extends Controller
         return redirect('/add/product');
     }
 
-    public function active_product($id){
+    public function active_product($id)
+    {
         $active_product = Product::find($id);
-        $active_product->status =0;
+        $active_product->status = 0;
         $active_product->save();
         \Brian2694\Toastr\Facades\Toastr::success('Product Pending :)', 'Pending');
         return redirect()->back();
     }
 
-    public function pending_product($id){
+    public function pending_product($id)
+    {
         $pending_product = Product::find($id);
-        $pending_product->status =1;
+        $pending_product->status = 1;
         $pending_product->save();
         \Brian2694\Toastr\Facades\Toastr::success('Product Active :)', 'Active');
         return redirect()->back();
     }
 
 
-    public function edit_product($id){
+    public function edit_product($id)
+    {
         $categories = Category::all();
         $sub_categories = SubCategory::all();
         $edit_product = Product::find($id);
         return view('admin.product.edit', compact('categories', 'sub_categories', 'edit_product'));
     }
 
-    public function update_product(Request $request){
+    public function update_product(Request $request)
+    {
         $customer_product = Product::find($request->id);
 
-        if ($request->hasFile('image')){
+        if ($request->hasFile('image')) {
             $productImage = $request->file('image');
             $imageName = $productImage->getClientOriginalName();
-            $fileName = time().'_customer_product_'.$imageName;
+            $fileName = time() . '_customer_product_' . $imageName;
             $directory = public_path('/customer-images/');
-            $teamImgUrl = $directory.$fileName;
+            $teamImgUrl = $directory . $fileName;
             Image::make($productImage)->resize(350, 350)->save($teamImgUrl);
             $customer_product->image = $fileName;
         }
@@ -102,7 +111,8 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function delete_product($id){
+    public function delete_product($id)
+    {
         $delete_product = Product::find($id);
         $delete_product->delete();
         \Brian2694\Toastr\Facades\Toastr::error('Product has been Deleted :)', 'Deleted');
@@ -112,12 +122,15 @@ class ProductController extends Controller
 
     //Customer Product//
 
-    public function customer_product(){
+    public function customer_product()
+    {
+
         $customer_product = CustomerProduct::all();
         return view('admin.customer-product.customer_product', compact('customer_product'));
     }
 
-    public function customer_product_approved($id){
+    public function customer_product_approved($id)
+    {
         $customer_product_active = CustomerProduct::find($id);
         $customer_product_active->status = 0;
         $customer_product_active->save();
@@ -125,7 +138,8 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function customer_product_pending($id){
+    public function customer_product_pending($id)
+    {
         $customer_product_pending = CustomerProduct::find($id);
         $customer_product_pending->status = 1;
         $customer_product_pending->save();
@@ -133,14 +147,16 @@ class ProductController extends Controller
         return redirect()->back();
     }
 
-    public function customer_product_edit($id){
+    public function customer_product_edit($id)
+    {
         $edit_customer_product = CustomerProduct::find($id);
         $show_category = Category::orderBy('id', 'asc')->get();
         $sub_categories = SubCategory::all();
         return view('admin.customer-product.customer-edit', compact('edit_customer_product', 'show_category', 'sub_categories'));
     }
 
-    public function customer_product_update(Request $request){
+    public function customer_product_update(Request $request)
+    {
         $customer_product = CustomerProduct::find($request->id);
 
         $customer_product->main_category_id = $request->main_category_id;
@@ -155,18 +171,37 @@ class ProductController extends Controller
         return redirect('/customer/product');
     }
 
-    public function customer_sale_statement(){
+    public function customer_sale_statement()
+    {
         $customer_cashout = Cashout::all();
         return view('admin.customer-product.sale-statement', compact('customer_cashout'));
     }
 
-    public function statement_delete($id){
+    public function statement_delete($id)
+    {
         $customer_cashout_delete = Cashout::find($id);
         $customer_cashout_delete->delete();
         \Brian2694\Toastr\Facades\Toastr::success('Customer Cashout Statement has been Deleted', 'Success');
         return redirect()->back();
     }
 
+    public function product_search(Request $request)
+    {
+        $product_search = $request->search;
+        $customer_product = CustomerProduct::all();
+        $customerProduct = CustomerProduct::orderBy('id', 'desc')
+                                            ->where('name', 'Like', '%'.$product_search.'%')
+                                            ->orwhere('description', 'Like', '%'.$product_search.'%')
+                                            ->orwhere('search', 'Like', '%'.$product_search.'%')
+                                            ->get();
+        return view('admin.customer-product.product-search', compact('customerProduct', 'customer_product'));
+
+    }
+
+    public function admin_product(){
+        $customer_order = adminProduct::all();
+        return view('admin.adminorder.admin-order', compact('customer_order'));
+    }
 
 
 

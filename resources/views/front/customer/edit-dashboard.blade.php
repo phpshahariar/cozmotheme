@@ -11,7 +11,7 @@
                     </div>
                     <div class="card">
                         <div class="card-body">
-                            <form action="{{ url('/update/customer/product') }}" method="POST" id="customerProductEdit" enctype="multipart/form-data">
+                            <form action="{{ url('/update/customer') }}" method="POST" id="customerProductEdit" enctype="multipart/form-data">
                                 @csrf
                                 <input type="hidden" name="id" id="id" value="{{$customer_product_edit->id}}"/>
                                 <label>Main Category</label>

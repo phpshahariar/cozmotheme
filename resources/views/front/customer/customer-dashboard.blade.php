@@ -23,7 +23,7 @@
                             @csrf
                             <label>Main Category</label>
                             <div class="form-group">
-                                <select class="form-control" name="main_category_id" required>
+                                <select class="form-control" name="main_category_id" id="category_id" required>
                                     <option>---Select Category---</option>
                                     @foreach($show_category as $category)
                                         <option value="{{ $category->id }}">{{$category->main_category}}</option>
@@ -33,7 +33,7 @@
                             </div>
                             <label>Sub Category</label>
                             <div class="form-group">
-                                <select class="form-control" name="sub_category_id" required>
+                                <select class="form-control" name="sub_category_id" id="sub_id" required>
                                     <option value="">---Sub Category---</option>
                                     @foreach($sub_category as $sub)
                                         <option value="{{$sub->id}}">{{$sub->sub_category_name}}</option>
@@ -46,7 +46,9 @@
                             </div>
                             <label>Product Price</label>
                             <div class="form-group">
-                                <input type="number" name="price" required class="form-control" placeholder="Enter Your Product Price...">
+                                <input type="number" name="price" required class="form-control price" placeholder="Enter Your Product Price...">
+                                <p style="color: red;">Extra 20% Will Be Added to your Price</p>
+                                <input type="text" name="price" readonly class="form-control totalPrice">
                             </div>
                             <label>Product Description</label>
                             <div class="form-group">
@@ -103,6 +105,7 @@
                                             </span>
                                         </td>
                                         <td>
+
                                             <a href="{{ url('/edit/product/'.$customer->id) }}" class="badge badge-info" style="font-size: 14px;">Edit</a>
                                             <a href="{{ url('/delete/product/'.$customer->id) }}" class="badge badge-danger" style="font-size: 14px;" onclick="return confirm('Are you Sure!! \n You Want To delete This?')">Delete</a>
                                         </td>
@@ -119,6 +122,41 @@
 
 
 {{--    // Sale Statement //--}}
+
+
+    <script
+            src="https://code.jquery.com/jquery-3.4.1.min.js"
+            integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+            crossorigin="anonymous">
+    </script>
+    <script>
+        $("#category_id").change(function () {
+            var category = $("#category_id").val();
+
+            $("#sub_id").html("");
+            var option = "";
+
+            $.get( "http://localhost/Cozmo/public/customer-category/"+category, function( data ) {
+                var data = JSON.parse(data);
+                data.forEach(function (element) {
+                    console.log(element.sub_category_name);
+                    option += "<option value='"+ element.id +"'>"+ element.sub_category_name +"</option>";
+                });
+
+                $("#sub_id").html(option);
+            });
+        });
+
+        $(".price").on('keyup',function(){
+            var price = $(this).val();
+            var total = price/100*20;
+            $(".totalPrice").val(parseInt(total) + parseInt(price));
+        })
+
+
+    </script>
+
+
 
 
     <script src="//cdn.ckeditor.com/4.11.3/standard/ckeditor.js"></script>

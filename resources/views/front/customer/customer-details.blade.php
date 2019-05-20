@@ -119,7 +119,7 @@
                                 </div>
                                 <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
-                                <input type="hidden" class="form-control"  name="price" value="{{ $product->price }}">
+                                <input type="hidden" class="form-control"  name="price" value="{{ number_format($product->price) }}">
                                 <input type="hidden" class="form-control"  name="user_id" value="{{ $product->user_id }}">
                                 <input type="hidden" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
                             </div>
