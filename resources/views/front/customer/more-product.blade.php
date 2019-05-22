@@ -1,14 +1,34 @@
 @extends('front.master')
 
 @section('content')
+    <section class=" bgimage" style="height: 310px;">
+        @foreach($show_slider as $slider)
+            <div class="bg_image_holder">
+                <img src="{{ asset('/slider-images/'.$slider->image) }}" alt="background-image">
+            </div>
+            <div class="hero-content content_above">
+                <div class="content-wrapper">
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="hero__content__title">
+                                    <h1 class="display-3" style="margin-top: 100px; color: red;">
+                                        All Update Products
+                                    </h1>
+                                </div>
+                            <!-- end .hero__btn-area-->
+                                <!--start .search-area -->
+                            </div><!-- ends: .col-md-12 -->
+                        </div><!-- ends: .row -->
+                    </div><!-- ends: .container -->
+                </div><!-- ends: .contact_wrapper -->
+            </div>
+        @endforeach
+    </section>
     <section class="latest-product section--padding">
         <div class="container">
             <div class="row">
-                <div class="col-md-12">
-                    <div class="section-title">
-                        <h1>All Update Products</h1>
-                    </div>
-                </div><!-- Ends: .col-md-12 -->
+                <!-- Ends: .col-md-12 -->
                 <div class="col-lg-12">
                     <div class="product-list">
                         <ul class="nav nav__product-list" id="lp-tab" role="tablist">
@@ -30,12 +50,12 @@
                                             <div class="product-single latest-single">
                                                 <div class="product-thumb">
                                                     <figure>
-                                                        <img src="{{ asset('/customer-images/'.$product->image) }}"/>
+                                                        <img src="{{ asset('/customer-images/'.$product->image) }}" height="210"/>
                                                         <figcaption>
                                                             <ul class="list-unstyled">
                                                                 {{--                                                            <li><a href="" data-toggle="modal" data-target="#BuyNow"><span class="icon-basket"></span></a></li>--}}
                                                                 <li><a href="{{url('/customer/product/details/'.$product->id)}}" >Buy Now</a></li>
-                                                                <li><a href="">Live Demo</a></li>
+                                                                <li><a href="{{ $product->demo_link }}" target="_blank">Live Demo</a></li>
                                                             </ul>
                                                         </figcaption>
                                                     </figure>
@@ -95,7 +115,7 @@
                                                                 <ul class="list-unstyled">
                                                                     {{--                                                            <li><a href="" data-toggle="modal" data-target="#BuyNow"><span class="icon-basket"></span></a></li>--}}
                                                                     <li><a href="{{url('/customer/product/details/'.$product->id)}}">Buy Now</a></li>
-                                                                    <li><a href="#">Live Demo</a></li>
+                                                                    <li><a href="{{ $product->demo_link }}" target="_blank">Live Demo</a></li>
                                                                 </ul>
                                                             </figcaption>
                                                         </figure>

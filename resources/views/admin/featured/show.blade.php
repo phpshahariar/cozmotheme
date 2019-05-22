@@ -16,7 +16,7 @@
                 <th scope="col">Sub Category</th>
                 <th scope="col">Name</th>
                 <th scope="col">Balance</th>
-                <th scope="col">Long Description</th>
+                <th scope="col">Demo Link</th>
                 <th scope="col">Status</th>
                 <th scope="col" width="20%">Action</th>
             </tr>
@@ -26,13 +26,13 @@
                 <tr>
                     <th scope="row" width="5%">{{ $key+1 }}</th>
                     <td>
-                        <img src="{{ asset('featured-images/' .$featured->image) }}" height="90" width="200" alt="Featured"/>
+                        <img src="{{ asset('featured-images/' .$featured->image) }}" height="50" width="130" alt="Featured"/>
                     </td>
                     <td>{!! $featured->category->main_category !!}</td>
                     <td>{!! $featured->sub_category->sub_category_name !!}</td>
                     <td>{!! $featured->featured_name !!}</td>
                     <td>TK. {!! number_format($featured->price,2) !!}</td>
-                    <td>{!! substr($featured->long_description,0,50) !!}.....</td>
+                    <td>{!! $featured->demo_link !!}</td>
                     <td>{!! $featured->status == 1 ? 'Active' : 'Pending'!!}</td>
                     <td>
                         @if($featured->status == 1)

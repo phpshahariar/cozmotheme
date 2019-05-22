@@ -69,7 +69,7 @@
                                                     </a>
                                                 </li>
                                                 <li>
-                                                    <a href="#">Live Demo</a>
+                                                    <a href="{{ $featurd->demo_link }}">Live Demo</a>
                                                 </li>
                                             </ul>
                                         </figcaption>
@@ -87,7 +87,6 @@
                                             </p>
                                         </li>
                                         <li class="product_cat">
-                                            in
                                             <a href="#">{!! $featurd->sub_category->sub_category_name !!}</a>
                                         </li>
                                     </ul>
@@ -160,7 +159,7 @@
                                                         <ul class="list-unstyled">
 {{--                                                            <li><a href="" data-toggle="modal" data-target="#BuyNow"><span class="icon-basket"></span></a></li>--}}
                                                             <li><a href="{{ url('/new/product/details/' .$product->id) }}">Buy Now</a></li>
-                                                            <li><a href="">Live Demo</a></li>
+                                                            <li><a href="{{ $product->demo_link }}">Live Demo</a></li>
                                                         </ul>
                                                     </figcaption>
                                                 </figure>
@@ -191,6 +190,7 @@
                                     </div>
                                     @endforeach
                                 </div>
+                                {{ $products->links() }}
                             </div><!-- Ends: .tab-pane -->
 
                             @foreach($all_category as $c_info)

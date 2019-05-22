@@ -55,6 +55,8 @@ Route::get('/sale/withdrawal/{id}', 'FrontendController@saleWithdrawal');
 Route::post('/case/out', 'FrontendController@cash_out');
 
 Route::get('/more/featured', 'FrontendController@more_featured');
+Route::post('/featured/product/order', 'FrontendController@order_featured');
+
 
 Route::get('/search',  'FrontendController@search')->name('search');
 
@@ -147,6 +149,7 @@ Route::post('/update-featured', 'FeaturedController@update_featured');
 
 
 Route::post('/customer/confirm/order', 'FeaturedController@customer_order');
+Route::get('/featured/product', 'FeaturedController@featured_order');
 
 
 
@@ -185,6 +188,19 @@ Route::get('/customer/order/list', 'CustomerOrderController@customer_order_reque
 Route::get('/delivered/pending/{id}', 'CustomerOrderController@customer_order_pending');
 Route::get('/delivered/confirm/{id}', 'CustomerOrderController@customer_order_cofirm');
 Route::get('/delivered/delete/{id}', 'CustomerOrderController@customer_order_delete');
+
+// Dynamic Page
+
+Route::get('/dynamic/page', 'DynamicController@dynamic_page');
+Route::post('/save/page', 'DynamicController@save_page');
+Route::get('/edit/page/{id}', 'DynamicController@edit_page');
+Route::post('/update/page', 'DynamicController@update_page');
+Route::get('/delete/page/{id}', 'DynamicController@delete_page');
+Route::get('/support', 'DynamicController@support_page');
+Route::post('/save/support', 'DynamicController@support_save');
+Route::get('/edit/support/{id}', 'DynamicController@support_edit');
+Route::post('/update/support', 'DynamicController@support_update');
+Route::get('/delete/support/{id}', 'DynamicController@support_delete');
 
 
 //API Route

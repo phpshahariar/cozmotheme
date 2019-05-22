@@ -52,7 +52,9 @@ class ProductController extends Controller
         $save_product->balance = $request->balance;
         $save_product->short_description = $request->short_description;
         $save_product->long_description = $request->long_description;
+        $save_product->demo_link = $request->demo_link;
         $save_product->status = $request->status;
+
         $save_product->save();
         \Brian2694\Toastr\Facades\Toastr::success('Product Save Successfully :)', 'Success');
         return redirect('/add/product');
@@ -89,11 +91,17 @@ class ProductController extends Controller
     {
         $customer_product = Product::find($request->id);
 
+        if ($request->hasFile('image')){
+            if ($request->image){
+                unlink(public_path('product-images/'.$customer_product->image));
+            }
+        }
+
         if ($request->hasFile('image')) {
             $productImage = $request->file('image');
             $imageName = $productImage->getClientOriginalName();
-            $fileName = time() . '_customer_product_' . $imageName;
-            $directory = public_path('/customer-images/');
+            $fileName = time() . '_admin_product_' . $imageName;
+            $directory = public_path('/product-images/');
             $teamImgUrl = $directory . $fileName;
             Image::make($productImage)->resize(350, 350)->save($teamImgUrl);
             $customer_product->image = $fileName;
@@ -102,13 +110,15 @@ class ProductController extends Controller
         $customer_product->main_category_id = $request->main_category_id;
         $customer_product->sub_category_id = $request->sub_category_id;
         $customer_product->name = $request->name;
-        $customer_product->price = $request->price;
-        $customer_product->description = $request->description;
-        $customer_product->user_id = Session::get('user_id');
-        $customer_product->url = $request->url;
+        $customer_product->balance = $request->balance;
+        $customer_product->short_description = $request->short_description;
+        $customer_product->long_description = $request->long_description;
+        $customer_product->demo_link = $request->demo_link;
+        $customer_product->status = $request->status;
+
         $customer_product->save();
-        \Brian2694\Toastr\Facades\Toastr::success('Your Product has been uploaded,Need to Admin Approved For Published', 'Success');
-        return redirect()->back();
+        \Brian2694\Toastr\Facades\Toastr::success('Product has been Updated :)', 'Success');
+        return redirect('/add/product');
     }
 
     public function delete_product($id)

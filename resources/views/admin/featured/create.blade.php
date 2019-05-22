@@ -43,6 +43,11 @@
                     <span style="color: red"> {{ $errors->has('long_description') ? $errors->first('long_description') : ' ' }}</span>
                 </div>
                 <div class="form-group">
+                    <label for="featured_name">Demo Link</label>
+                    <input type="text" class="form-control" id="demo_link" name="demo_link" placeholder="Enter Your Featured Demo..">
+                    <span style="color: red"> {{ $errors->has('demo_link') ? $errors->first('demo_link') : ' ' }}</span>
+                </div>
+                <div class="form-group">
                     <label for="image">Image</label>
                     <input type="file" id="image" name="image">
                 </div>

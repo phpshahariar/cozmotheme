@@ -27,23 +27,23 @@
                 <tr>
                     <th scope="row" width="5%">{{$key+1}}</th>
                     <td>
-                        <img src="{{ asset('/product-images/'.$product->image) }}" height="90" width="120"/>
+                        <img src="{{ asset('/product-images/'.$product->image) }}" height="50" width="80"/>
                     </td>
                     <td>{{ $product->category->main_category }}</td>
                     <td>{{ $product->sub_category->sub_category_name }}</td>
                     <td>{{ $product->name }}</td>
                     <td>TK. {{ number_format($product->balance,2) }}</td>
                     <td>{!! $product->short_description !!}</td>
-                    <td>{!! substr($product->long_description, 0,100) !!}</td>
+                    <td>{!! substr($product->long_description, 0,50) !!}[...]</td>
                     <td>{{ $product->status == 1 ? 'Active' : 'Pending'}}</td>
                     <td width="20%">
                         @if($product->status == 1)
-                            <a href="{{ url('/active-product/'.$product->id) }}" class="btn btn-sm btn-success">Active</a>
+                            <a href="{{ url('/active-product/'.$product->id) }}" class="badge badge-success">Active</a>
                         @else
-                            <a href="{{ url('/pending-product/'.$product->id) }}" class="btn btn-sm btn-warning">Pending</a>
+                            <a href="{{ url('/pending-product/'.$product->id) }}" class="badge badge-warning">Pending</a>
                         @endif
-                        <a href="{{ url('/edit-product/'.$product->id) }}" class="btn btn-sm btn-info">Edit</a>
-                        <a href="{{ url('/delete-product/'.$product->id) }}" onclick="return confirm('Are You Sure! Delete This Information?');" class="btn btn-sm btn-danger">Delete</a>
+                        <a href="{{ url('/edit-product/'.$product->id) }}" class="badge badge-info">Edit</a>
+                        <a href="{{ url('/delete-product/'.$product->id) }}" onclick="return confirm('Are You Sure! Delete This Information?');" class="badge badge-danger">Delete</a>
                     </td>
                 </tr>
             @endforeach

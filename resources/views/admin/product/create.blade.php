@@ -38,6 +38,10 @@
                     <label>Long Description</label>
                     <textarea class="form-control" name="long_description" id="editor1" required></textarea>
                 </div>
+                <label>Demo Link</label>
+                <div class="form-group">
+                    <input type="text" name="demo_link" required class="form-control" placeholder="Enter Your Product Live Link...">
+                </div>
                 <div class="form-group">
                     <input type="file" name="image" id="image"/>
                 </div>

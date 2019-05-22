@@ -3,7 +3,14 @@
 @section('content')
 
     <section class="latest-product section--padding">
+        @if($message  = Session::get('message'))
+            <div class="alert alert-success">
+                <h3>{{ $message }}</h3>
+            </div>
+        @endif
         <div class="container">
+            <span style="color: red; text-align: center; font-size: 30px;"> {{ $errors->has('name') ? $errors->first('name') : ' ' }}</span>
+            <span style="color: red; text-align: center; font-size: 30px;"> {{ $errors->has('phone') ? $errors->first('phone') : ' ' }}</span>
             <div class="row">
                 <!-- Ends: .col-md-12 -->
                 <div class="col-lg-8" style="border: 0px solid #0d0d0d;">
@@ -89,7 +96,7 @@
 
         <div class="modal fade" id="buyProduct" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
             <div class="modal-dialog" role="document">
-                <form action="{{ url('/customer/product/order') }}"  method="POST" id="addCustomerForm">
+                <form action="{{ url('/featured/product/order') }}"  method="POST" id="addCustomerForm">
                     @csrf
                     <div class="modal-content">
                         <div class="modal-header">
@@ -119,8 +126,7 @@
                                 </div>
                                 <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
-                                <input type="hidden" class="form-control"  name="price" value="{{ number_format($product->price) }}">
-                                <input type="hidden" class="form-control"  name="user_id" value="{{ $product->user_id }}">
+                                <input type="hidden" class="form-control"  name="price" value="{{ $product->price }}">
                                 <input type="hidden" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
                             </div>
 

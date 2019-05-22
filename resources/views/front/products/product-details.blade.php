@@ -119,8 +119,8 @@
                                 </div>
                                 <input type="email" class="form-control" required placeholder="Enter Your Email..." name="email">
                                 <span style="color: red"> {{ $errors->has('email') ? $errors->first('email') : ' ' }}</span>
-                                <input type="text" class="form-control"  name="price" value="{{ $product->balance }}">
-                                <input type="text" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
+                                <input type="hidden" class="form-control"  name="price" value="{{ $product->balance }}">
+                                <input type="hidden" class="form-control"  name="product_id" value="{{ $product->category->main_category }}">
                             </div>
 
                             <div class="form-group form-check">

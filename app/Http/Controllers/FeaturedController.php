@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Category;
 use App\CustomerProduct;
 use App\Featured;
+use App\FeaturedOrder;
 use App\Footer;
 use App\Logo;
 use App\Order;
@@ -38,6 +39,7 @@ class FeaturedController extends Controller
             'price' => 'required',
             'long_description' => 'required',
             'image' => 'required',
+            'demo_link' => 'required',
         ]);
 
 
@@ -60,6 +62,7 @@ class FeaturedController extends Controller
         $save_featured->featured_name = $request->featured_name;
         $save_featured->price = $request->price;
         $save_featured->long_description = $request->long_description;
+        $save_featured->demo_link = $request->demo_link;
         $save_featured->status = $request->status;
         $save_featured->save();
         Toastr::success('Featured has been successfully Save', 'Success');
@@ -113,6 +116,7 @@ class FeaturedController extends Controller
         $update_featured->featured_name = $request->featured_name;
         $update_featured->price = $request->price;
         $update_featured->long_description = $request->long_description;
+        $update_featured->demo_link = $request->demo_link;
         $update_featured->status = $request->status;
         $update_featured->save();
         Toastr::success('Featured has been successfully Updated', 'Success');
@@ -201,6 +205,12 @@ class FeaturedController extends Controller
         Toastr::success('Your Order Successfully', 'Success');
         return redirect()->back();
 
+    }
+
+
+    public function featured_order(){
+        $show_featured = FeaturedOrder::orderBy('id', 'desc')->get();
+        return view('admin.featured.featured-order', compact('show_featured'));
     }
 
 

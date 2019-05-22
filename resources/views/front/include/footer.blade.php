@@ -21,21 +21,24 @@
                             @endforeach
                         </ul>
                     </div>
-                    <div class="col-md-2">
+                    <div class="col-md-2" style="margin-left: 20px;">
                         <h2>Company</h2>
                         <br/>
                         <ul>
-                            <li>
-                                <p>Show Dynamic Page</p>
-                            </li>
+                            @foreach($show_dynamic_page as $dynamic_page)
+                                <li>
+                                    <p><a href="#" style="color: red; font-weight: bold; text-align: center;"> {{ $dynamic_page->page_name }}</a></p>
+                                </li>
+                             @endforeach
                         </ul>
                     </div>
-                        <div class="col-md-4" style="border: 0px solid red;">
+                        <div class="col-md-3" style="border: 0px solid red; margin-left: 50px;">
                             <h2 style="text-align: center;">Support</h2>
-                            <br/>
-                            <p style="margin-left: 50px;">Support Team Information</p>
+                            @foreach($show_support_page as $support_page)
+                                <strong style="margin-left: 30px;">{!! $support_page->support !!}</strong>
+                            @endforeach
                         </div>
-                </div>
+                    </div>
             </div>
             <!-- end /.row -->
         </div>

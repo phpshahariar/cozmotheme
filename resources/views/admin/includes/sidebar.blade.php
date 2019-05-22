@@ -19,6 +19,12 @@
     </li>
 
     <li class="nav-item">
+        <a class="nav-link" href="{{url('/featured/product')}}">
+            <i class="fas fa-fw fa-chart-area"></i>
+            <span>Featured Product Order</span></a>
+    </li>
+
+    <li class="nav-item">
         <a class="nav-link" href="{{url('/customer/sale/statement')}}">
             <i class="fas fa-fw fa-chart-area"></i>
          <span>Sale Statement</span></a>
@@ -74,5 +80,15 @@
         <a class="nav-link" href="{{url('/add/footer')}}">
             <i class="fas fa-fw fa-table"></i>
             <span>About</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('/dynamic/page')}}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Dynamic Page</span></a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" href="{{url('/support')}}">
+            <i class="fas fa-fw fa-table"></i>
+            <span>Support</span></a>
     </li>
 </ul>

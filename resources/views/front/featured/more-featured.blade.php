@@ -140,9 +140,9 @@
                                             <img src="{{ asset('/featured-images/'.$product->image) }}" alt="" class="img-fluid">
                                             <figcaption>
                                                 <ul class="list-unstyled">
-                                                    <li><a href="#" data-toggle="modal" data-target="#buyProduct">Buy Now</a></li>
+                                                    <li><a href="{{ url('/featured-details/'.$product->id) }}">Buy Now</a></li>
                                                     <li>
-                                                        <a href="">Live Demo</a>
+                                                        <a href="#">Live Demo</a>
                                                     </li>
                                                 </ul>
                                             </figcaption>
@@ -150,14 +150,14 @@
                                     </div><!-- Ends: .product-thumb -->
                                     <div class="product-excerpt" style="height: 160px; width: 360px;">
                                         <h5>
-                                            <a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->name }}</a>
-                                            <a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->featured_name }}</a>
+                                            <a href="{{ url('/featured-details/' .$product->id) }}">{{ $product->name }}</a>
+                                            <a href="{{ url('/featured-details/' .$product->id) }}">{{ $product->featured_name }}</a>
                                         </h5>
                                         <ul class="titlebtm">
                                             <li>
                                                 <img src="{{ asset('/product-images/'.$product->image) }}" alt="" class="img-fluid">
                                                 <p>
-                                                    <a href="{{ url('/new/product/details/' .$product->id) }}">{{ $product->category->main_category }}</a>
+                                                    <a href="{{ url('/featured-details/' .$product->id) }}">{{ $product->category->main_category }}</a>
                                                 </p>
                                             </li>
                                         </ul>

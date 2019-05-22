@@ -45,6 +45,10 @@
                                 <div class="form-group">
                                     <textarea class="form-control" required name="description" id="editor1">{!! $customer_product_edit->description !!}</textarea>
                                 </div>
+                                <label>Demo Link</label>
+                                <div class="form-group">
+                                    <input type="text" name="demo_link" required class="form-control" placeholder="Enter Your Product Live Link...">
+                                </div>
                                 <div class="form-group">
                                     <input type="file" name="image" required accept="image/*">
                                     <img src="{{asset('customer-images/'.$customer_product_edit->image)}}" height="90" width="120"/>

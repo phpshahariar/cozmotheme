@@ -54,6 +54,10 @@
                             <div class="form-group">
                                 <textarea class="form-control" required name="description" id="editor1"></textarea>
                             </div>
+                            <label>Demo Link</label>
+                            <div class="form-group">
+                                <input type="text" name="demo_link" required class="form-control" placeholder="Enter Your Product Live Link...">
+                            </div>
                             <div class="form-group">
                                 <input type="file" name="image" required accept="image/*">
                             </div>
@@ -84,6 +88,7 @@
                                     <th style="border: 1px solid lightslategray;">Product Price</th>
                                         <span style="color: red"> {{ $errors->has('price') ? $errors->first('price') : ' ' }}</span>
                                     <th style="border: 1px solid lightslategray;">Status</th>
+                                    <th style="border: 1px solid lightslategray;">Demo Link</th>
                                     <th style="border: 1px solid lightslategray;">Action</th>
                                 </tr>
                                 </thead>
@@ -98,12 +103,12 @@
                                         <td>{{ $customer->name }}</td>
 
                                         <td>TK. {{ number_format($customer->price,2) }}</td>
-
                                         <td style="text-align: center;">
                                             <span class="badge badge-success" style="font-size: 14px;">
                                                 {{ $customer->status ==1 ? 'Approved' : 'Pending' }}
                                             </span>
                                         </td>
+                                        <td>{{ $customer->demo_link }}</td>
                                         <td>
 
                                             <a href="{{ url('/edit/product/'.$customer->id) }}" class="badge badge-info" style="font-size: 14px;">Edit</a>

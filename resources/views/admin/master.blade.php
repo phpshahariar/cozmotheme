@@ -66,7 +66,7 @@
 <script src="{!! asset('/admin/backend/') !!}/vendor/jquery-easing/jquery.easing.min.js"></script>
 
 <!-- Page level plugin JavaScript-->
-<script src="{!! asset('/admin/backend/') !!}/vendor/chart.js/Chart.min.js"></script>
+{{--<script src="{!! asset('/admin/backend/') !!}/vendor/chart.js/Chart.min.js"></script>--}}
 <script src="{!! asset('/admin/backend/') !!}/vendor/datatables/jquery.dataTables.js"></script>
 <script src="{!! asset('/admin/backend/') !!}/vendor/datatables/dataTables.bootstrap4.js"></script>
 
@@ -74,8 +74,8 @@
 <script src="{!! asset('/admin/backend/') !!}/js/sb-admin.min.js"></script>
 
 <!-- Demo scripts for this page-->
-<script src="{!! asset('/admin/backend/') !!}/js/demo/datatables-demo.js"></script>
-<script src="{!! asset('/admin/backend/') !!}/js/demo/chart-area-demo.js"></script>
+
+{{--<script src="{!! asset('/admin/backend/') !!}/js/demo/chart-area-demo.js"></script>--}}
 
 <script src="http://cdn.bootcss.com/jquery/2.2.4/jquery.min.js"></script>
 <script src="http://cdn.bootcss.com/toastr.js/latest/js/toastr.min.js"></script>
