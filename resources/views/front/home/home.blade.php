@@ -87,7 +87,11 @@
                                             </p>
                                         </li>
                                         <li class="product_cat">
-                                            <a href="#">{!! $featurd->sub_category->sub_category_name !!}</a>
+                                            @if(isset($featurd->sub_category->sub_category_name))
+                                                <a href="#">{!! $featurd->sub_category->sub_category_name !!}</a>
+                                             @else
+                                                <p>No Sub Category</p>
+                                            @endif
                                         </li>
                                     </ul>
                                     <ul class="product-facts clearfix">

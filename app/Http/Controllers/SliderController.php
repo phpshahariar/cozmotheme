@@ -81,4 +81,11 @@ class SliderController extends Controller
         \Brian2694\Toastr\Facades\Toastr::success('Slider has been Update', 'Update');
         return redirect('/add/slider');
     }
+
+    public function delete_slider($id){
+        $sliders = Slider::find($id);
+        $sliders->delete();
+        \Brian2694\Toastr\Facades\Toastr::success('Slider has been Deleted', 'Update');
+        return redirect()->back();
+    }
 }

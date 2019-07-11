@@ -136,6 +136,7 @@ Route::get('/active-slider/{id}', 'SliderController@active_slider');
 Route::get('/pending-slider/{id}', 'SliderController@pending_slider');
 Route::get('/edit-slider/{id}', 'SliderController@edit_slider');
 Route::post('/update-slider', 'SliderController@update_slider');
+Route::get('/delete-slider/{id}', 'SliderController@delete_slider');
 
 
 

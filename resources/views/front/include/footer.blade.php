@@ -1,11 +1,10 @@
 <footer class="footer-area footer--light">
-    <div class="footer-big" style="padding-top: 50px;">
+    <div class="" style="padding-top: 50px;">
         <!-- start .container -->
         <div class="container">
             <img src="{{ asset('/frontend/') }}/img/footer.png" style="margin-left: 50px;" alt="" height="90" width="120" class="img-fluid">
             <div class="col-md-12" style="border: 0px solid red;">
                 <div class="row">
-
                     @foreach($show_about as $about)
                     <div class="col-md-4">
                         <h2>{!! $about->title !!}</h2>
@@ -40,7 +39,10 @@
                         </div>
                     </div>
             </div>
+        </div>
             <!-- end /.row -->
+
+
         </div>
         <!-- end /.container -->
     </div>

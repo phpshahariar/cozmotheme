@@ -429,100 +429,73 @@
                             <!-- offcanvas menu -->
                             <div class="offcanvas-menu closed">
                                 <span class="icon-close close_menu"></span>
-                                <div class="author-author__info">
-                                    <div class="author__avatar v_middle">
-                                        <img src="{{ asset('/frontend/') }}/img/user-avater.png" alt="user avatar">
-                                    </div>
-                                </div>
                                 <!--end /.author-author__info-->
-                                <div class="author__notification_area">
-                                    <ul>
-                                        <li>
-                                            <a href="notification.html">
-                                                <div class="icon_wrap">
-                                                    <span class="icon-bell"></span>
-                                                    <span class="notification_count noti">25</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="message.html">
-                                                <div class="icon_wrap">
-                                                    <span class="icon-envelope"></span>
-                                                    <span class="notification_count msg">6</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                        <li>
-                                            <a href="cart.html">
-                                                <div class="icon_wrap">
-                                                    <span class="icon-basket"></span>
-                                                    <span class="notification_count purch">2</span>
-                                                </div>
-                                            </a>
-                                        </li>
-                                    </ul>
-                                </div>
                                 <!--start .author__notification_area -->
                                 <div class="dropdown dropdown--author">
                                     <ul>
-                                        <li>
-                                            <a href="author.html">
-                                                <span class="icon-user"></span>Profile</a>
-                                        </li>
-                                        <li>
-                                            <a href="{{ url('/customer/dashboard') }}">
-                                                <span class="icon-home"></span> Dashboard</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="icon-settings"></span> Setting</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="icon-basket"></span>Purchases</a>
-                                        </li>
-                                        <li>
-                                            <a href="#">
-                                                <span class="icon-heart"></span> Favourite</a>
-                                        </li>
-                                        <li>
-                                            <a href="dashboard-add-credit.html">
-                                                <span class="icon-credit-card"></span>Add Credits</a>
-                                        </li>
-                                        <li>
-                                            <a href="dashboard-statement.html">
-                                                <span class="icon-chart"></span>Sale Statement</a>
-                                        </li>
-                                        <li>
-                                            <a href="dashboard-upload.html">
-                                                <span class="icon-cloud-upload"></span>Upload Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="dashboard-manage-item.html">
-                                                <span class="icon-notebook"></span>Manage Item</a>
-                                        </li>
-                                        <li>
-                                            <a href="dashboard-withdrawal.html">
-                                                <span class="icon-briefcase"></span>Withdrawals</a>
-                                        </li>
-                                        <li>
-                                            <a href="#" onclick="event.preventDefault();
+                                        @if(Session::get('user_id'))
+                                            <li>
+                                                <a href="{{ url('/customer/dashboard') }}">
+                                                    <span class="icon-user"></span>{{ Session::get('name') }}</a>
+                                            </li>
+                                        @else
+                                            <li>
+                                                <a href="{{ url('/customer/info') }}">
+                                                    <span class="icon-user"></span>Registration</a>
+                                            </li>
+                                        @endif
+                                        @if(Session::get('user_id'))
+                                            <li>
+                                                <a href="{{ url('/customer/dashboard') }}">
+                                                    <span class="icon-home"></span> Dashboard</a>
+                                            </li>
+                                            <li>
+                                                <a href="dashboard-setting.html">
+                                                    <span class="icon-settings"></span> Setting</a>
+                                            </li>
+                                            <li>
+                                                <a href="cart.html">
+                                                    <span class="icon-basket"></span>Purchases</a>
+                                            </li>
+                                            <li>
+                                                <a href="favourites.html">
+                                                    <span class="icon-heart"></span> Favourite</a>
+                                            </li>
+                                            <li>
+                                                <a href="dashboard-add-credit.html">
+                                                    <span class="icon-credit-card"></span>Add Credits</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('/sale/statement') }}" target="_blank">
+                                                    <span class="icon-chart"></span>Sale Statement</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" data-toggle="modal" data-target=".customer-product">
+                                                    <span class="icon-cloud-upload"></span>Upload Item</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{ url('/customer/dashboard') }}">
+                                                    <span class="icon-notebook"></span>Manage Item</a>
+                                            </li>
+                                            <li>
+                                                <a href="{{url('/sale/statement')}}">
+                                                    <span class="icon-briefcase"></span>Withdrawals</a>
+                                            </li>
+                                            <li>
+                                                <a href="#" onclick="event.preventDefault();
                                                      document.getElementById('logout-form').submit();">
                                                 <span class="icon-logout">
 
                                                 </span>
-                                                Logout
-                                            </a>
-                                            <form id="logout-form" action="{{ url('/') }}" method="POST" style="display: none;">
-                                                @csrf
-                                            </form>
-                                        </li>
+                                                    Logout
+                                                </a>
+                                                <form id="logout-form" action="{{ url('/customer/logout') }}" method="get" style="display: none;">
+                                                    @csrf
+                                                </form>
+                                            </li>
+                                        @else
+                                        @endif
                                     </ul>
-                                </div>
-                                <div class="text-center">
-                                    <a href="#" class="author-area__seller-btn inline">Become a
-                                        Seller</a>
                                 </div>
                             </div>
                         </div>
